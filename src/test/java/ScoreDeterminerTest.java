@@ -1,7 +1,5 @@
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Test;
 
 class ScoreDeterminerTest {
@@ -9,29 +7,78 @@ class ScoreDeterminerTest {
 
     @Test
     void canScore(){
-        ScoreDeterminer scoreDeterminer = new ScoreDeterminer();
-        scoreDeterminer.score("A");
+        ConsoleAdapter consoleAdapter = new ConsoleAdapter();
+        consoleAdapter.score("A");
 
-        assertThat(scoreDeterminer.getScore()).isEqualTo("Player A scores Score [1-0]");
+        assertThat(consoleAdapter.getPrintedScore()).isEqualTo("Player A scores Score [1-0]");
     }
 
     @Test
     void canScoreTwice(){
-        ScoreDeterminer scoreDeterminer = new ScoreDeterminer();
-        scoreDeterminer.score("A");
-        scoreDeterminer.score("a");
+        ConsoleAdapter consoleAdapter = new ConsoleAdapter();
+        consoleAdapter.score("A");
+        consoleAdapter.score("a");
 
-        assertThat(scoreDeterminer.getScore()).isEqualTo("Player A scores Score [2-0]");
+        assertThat(consoleAdapter.getPrintedScore()).isEqualTo("Player A scores Score [2-0]");
     }
 
     @Test
     void canScoreBoth(){
-        ScoreDeterminer scoreDeterminer = new ScoreDeterminer();
-        scoreDeterminer.score("A");
-        scoreDeterminer.score("B");
+        ConsoleAdapter consoleAdapter = new ConsoleAdapter();
+        consoleAdapter.score("A");
+        consoleAdapter.score("B");
 
-        assertThat(scoreDeterminer.getScore()).isEqualTo("Player B scores Score [1-1]");
+        assertThat(consoleAdapter.getPrintedScore()).isEqualTo("Player B scores Score [1-1]");
     }
 
+    @Test
+    void noWinnerYet(){
+        ConsoleAdapter consoleAdapter = new ConsoleAdapter();
+        consoleAdapter.score("A");
+        consoleAdapter.score("a");
+        consoleAdapter.score("a");
+
+        assertThat(consoleAdapter.isFinished()).isFalse();
+    }
+
+    @Test
+    void playerWon(){
+        ConsoleAdapter consoleAdapter = new ConsoleAdapter();
+        consoleAdapter.score("A");
+        consoleAdapter.score("a");
+        consoleAdapter.score("a");
+        consoleAdapter.score("a");
+
+        assertThat(consoleAdapter.isFinished()).isTrue();
+    }
+
+    @Test
+    void noWinnerWithOnePointDifference(){
+        ConsoleAdapter consoleAdapter = new ConsoleAdapter();
+        consoleAdapter.score("A");
+        consoleAdapter.score("a");
+        consoleAdapter.score("a");
+        consoleAdapter.score("b");
+        consoleAdapter.score("b");
+        consoleAdapter.score("b");
+        consoleAdapter.score("b");
+
+        assertThat(consoleAdapter.isFinished()).isFalse();
+    }
+
+    @Test
+    void winnerWithTwoPointDifference(){
+        ConsoleAdapter consoleAdapter = new ConsoleAdapter();
+        consoleAdapter.score("A");
+        consoleAdapter.score("a");
+        consoleAdapter.score("a");
+        consoleAdapter.score("b");
+        consoleAdapter.score("b");
+        consoleAdapter.score("b");
+        consoleAdapter.score("b");
+        consoleAdapter.score("b");
+
+        assertThat(consoleAdapter.isFinished()).isTrue();
+    }
 
 }
