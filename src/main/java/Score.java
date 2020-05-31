@@ -1,18 +1,27 @@
+import java.util.Objects;
+
 public class Score {
 
-    private int playerAPoints = 0;
-    private int playerBPoints = 0;
+    private final int playerAPoints;
+    private final int playerBPoints;
 
     private Player lastScored;
 
-    public void scored(Player player) {
+    Score(int playerAPoints, int playerBPoints, Player lastScored) {
+        this.playerAPoints = playerAPoints;
+        this.playerBPoints = playerBPoints;
+        this.lastScored = lastScored;
+    }
+
+    public Score scored(Player player) {
         if (Player.A == player) {
-            playerAPoints++;
+            return new Score(playerAPoints + 1, playerBPoints, player);
         }
         else if (Player.B == player) {
-            playerBPoints++;
+            return new Score(playerAPoints, playerBPoints + 1, player);
         }
-        lastScored = player;
+
+        throw new IllegalArgumentException("Player not supported");
     }
 
     public Player getLastScored() {
@@ -29,6 +38,21 @@ public class Score {
 
     private boolean diffOfTwoPoints() {
         return Math.abs(playerAPoints - playerBPoints) >= 2;
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Score score = (Score) o;
+        return playerAPoints == score.playerAPoints &&
+                playerBPoints == score.playerBPoints &&
+                lastScored == score.lastScored;
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(playerAPoints, playerBPoints, lastScored);
     }
 
     @Override public String toString() {

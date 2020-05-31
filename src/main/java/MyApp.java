@@ -5,11 +5,9 @@ public class MyApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        ConsoleAdapter consoleAdapter = new ConsoleAdapter();
+        GameConsoleAdapter consoleAdapter = new GameConsoleAdapter();
         while(!consoleAdapter.isFinished()) {
-            consoleAdapter.score(scanner.nextLine());
-            System.out.println(consoleAdapter.getPrintedScore());
+            consoleAdapter.parseGameInput(scanner.nextLine());
         }
-        System.out.println(consoleAdapter.getWinner());
     }
 }
