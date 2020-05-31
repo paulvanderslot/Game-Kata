@@ -5,9 +5,11 @@ public class HelloWorld {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
+        ScoreDeterminer scoreDeterminer = new ScoreDeterminer();
 
-        System.out.println("Hello " + name);
+
+        scoreDeterminer.score(scanner.nextLine());
+        System.out.println(scoreDeterminer.getScore());
+
     }
 }
