@@ -21,7 +21,8 @@ public class Score {
         return earnsServingRight(player);
     }
 
-    private boolean hasServingRight(Player player) {
+    // TODO not sure if it belongs here
+    public boolean hasServingRight(Player player) {
         return lastScored.equals(player);
     }
 

@@ -47,19 +47,33 @@ public class GameConsoleAdapter {
         System.out.println(getScoreText(newScore));
     }
 
-    //TODO possible that serving right and points should be moved to Point class? -> would remove ifs (point.toString)
     private String getScoreText(Score newScore) {
         String scoreText = "Player " + newScore.lastScored + " scores";
-        scoreText += " Score [" + newScore.playerAPoints;
-        if (newScore.lastScored.equals(Player.A)) {
-            scoreText += "*";
-        }
-        scoreText += "-" + newScore.playerBPoints;
-        if (newScore.lastScored.equals(Player.B)) {
-            scoreText += "*";
-        }
+        scoreText += " Score [";
+        scoreText += getPointsForPlayer(Player.A, newScore);
+        scoreText += "-";
+        scoreText += getPointsForPlayer(Player.B, newScore);
         scoreText += "]";
         return scoreText;
+    }
+
+    //TODO possible that serving right and points should be moved to Point class? -> would remove ifs (point.toString)
+    private String getPointsForPlayer(Player player, Score newScore) {
+        String points = getPointsText(player, newScore);
+        if (newScore.hasServingRight(player)) {
+            points += "*";
+        }
+        return points;
+    }
+
+    private String getPointsText(Player player, Score newScore) {
+        if (player.equals(Player.A)) {
+            return String.valueOf(newScore.playerAPoints);
+        }
+        else if (player.equals(Player.B)) {
+            return String.valueOf(newScore.playerBPoints);
+        }
+        throw new IllegalArgumentException("Player not supported");
     }
 
     private void printWinner() {
