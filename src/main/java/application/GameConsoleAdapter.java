@@ -31,6 +31,7 @@ public class GameConsoleAdapter {
         }
     }
 
+    // TODO move to parsing class if gets complicated
     private Player parse(String input) {
         if (input.equalsIgnoreCase("A")) {
             return Player.A;
@@ -43,8 +44,22 @@ public class GameConsoleAdapter {
     }
 
     private void printScore(Score newScore) {
-        System.out.println(
-                "Player " + newScore.lastScored + " scores Score [" + newScore.playerAPoints + "-" + newScore.playerBPoints + "]");
+        System.out.println(getScoreText(newScore));
+    }
+
+    //TODO possible that serving right and points should be moved to Point class? -> would remove ifs (point.toString)
+    private String getScoreText(Score newScore) {
+        String scoreText = "Player " + newScore.lastScored + " scores";
+        scoreText += " Score [" + newScore.playerAPoints;
+        if (newScore.lastScored.equals(Player.A)) {
+            scoreText += "*";
+        }
+        scoreText += "-" + newScore.playerBPoints;
+        if (newScore.lastScored.equals(Player.B)) {
+            scoreText += "*";
+        }
+        scoreText += "]";
+        return scoreText;
     }
 
     private void printWinner() {

@@ -8,7 +8,7 @@ public class Game {
     }
 
     public void playerScores(Player player) {
-        currentScore = currentScore.scored(player);
+              currentScore = currentScore.scores(player);
     }
 
     public boolean isFinished() {

@@ -14,17 +14,30 @@ public class Score {
         this.lastScored = lastScored;
     }
 
-    public Score scored(Player player) {
+    public Score scores(Player player) {
+        if (hasServingRight(player)) {
+            return scoresPoint(player);
+        }
+        return earnsServingRight(player);
+    }
+
+    private boolean hasServingRight(Player player) {
+        return lastScored.equals(player);
+    }
+
+    private Score earnsServingRight(Player player) {
+        return new Score(playerAPoints, playerBPoints, player);
+    }
+
+    private Score scoresPoint(Player player) {
         if (Player.A == player) {
             return new Score(playerAPoints + 1, playerBPoints, player);
         }
         else if (Player.B == player) {
             return new Score(playerAPoints, playerBPoints + 1, player);
         }
-
-        throw new IllegalArgumentException("domain.Player not supported");
+        throw new IllegalArgumentException("Player not supported");
     }
-
 
     @Override public boolean equals(Object o) {
         if (this == o)
