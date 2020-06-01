@@ -1,59 +1,59 @@
-import static org.assertj.core.api.Assertions.assertThat;
+package domain;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class GameTest {
 
-
     @Test
-    void canScore(){
+    void canScore() {
         Game game = new Game();
         game.playerScores(Player.A);
 
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(1,0,Player.A));
+        Assertions.assertThat(game.getCurrentScore()).isEqualTo(new Score(1, 0, Player.A));
     }
 
     @Test
-    void canScoreTwice(){
+    void canScoreTwice() {
         Game game = new Game();
         game.playerScores(Player.A);
         game.playerScores(Player.A);
 
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(2,0,Player.A));
+        Assertions.assertThat(game.getCurrentScore()).isEqualTo(new Score(2, 0, Player.A));
     }
 
     @Test
-    void canScoreBoth(){
+    void canScoreBoth() {
         Game game = new Game();
         game.playerScores(Player.A);
         game.playerScores(Player.B);
 
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(1,1,Player.B));
+        Assertions.assertThat(game.getCurrentScore()).isEqualTo(new Score(1, 1, Player.B));
     }
 
     @Test
-    void noWinnerYet(){
+    void noWinnerYet() {
         Game game = new Game();
         game.playerScores(Player.A);
         game.playerScores(Player.A);
         game.playerScores(Player.A);
 
-        assertThat(game.isFinished()).isFalse();
+        Assertions.assertThat(game.isFinished()).isFalse();
     }
 
     @Test
-    void playerWon(){
+    void playerWon() {
         Game game = new Game();
         game.playerScores(Player.A);
         game.playerScores(Player.A);
         game.playerScores(Player.A);
         game.playerScores(Player.A);
 
-        assertThat(game.isFinished()).isTrue();
+        Assertions.assertThat(game.isFinished()).isTrue();
     }
 
     @Test
-    void noWinnerWithOnePointDifference(){
+    void noWinnerWithOnePointDifference() {
         Game game = new Game();
         game.playerScores(Player.A);
         game.playerScores(Player.A);
@@ -63,11 +63,11 @@ class GameTest {
         game.playerScores(Player.B);
         game.playerScores(Player.B);
 
-        assertThat(game.isFinished()).isFalse();
+        Assertions.assertThat(game.isFinished()).isFalse();
     }
 
     @Test
-    void winnerWithTwoPointDifference(){
+    void winnerWithTwoPointDifference() {
         Game game = new Game();
         game.playerScores(Player.A);
         game.playerScores(Player.A);
@@ -78,7 +78,7 @@ class GameTest {
         game.playerScores(Player.B);
         game.playerScores(Player.B);
 
-        assertThat(game.isFinished()).isTrue();
+        Assertions.assertThat(game.isFinished()).isTrue();
     }
 
 }

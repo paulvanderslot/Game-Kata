@@ -1,6 +1,27 @@
+package application;
+
+import java.util.Scanner;
+
+import domain.Game;
+import domain.Player;
+import domain.Score;
+
 public class GameConsoleAdapter {
 
     private Game game = new Game();
+
+    public void startNewGame() {
+        game = new Game();
+        startGame();
+    }
+
+    private void startGame() {
+        Scanner scanner = new Scanner(System.in);
+        while (!game.isFinished()) {
+            parseGameInput(scanner.nextLine());
+        }
+        printWinner();
+    }
 
     public void parseGameInput(String input) {
         Player player = parse(input);
@@ -22,14 +43,8 @@ public class GameConsoleAdapter {
     }
 
     private void printScore(Score newScore) {
-        System.out.println("Player " + newScore.getLastScored() + " scores Score [" + newScore.toString() + "]");
-    }
-
-    public boolean isFinished() {
-        if (game.isFinished()) {
-            printWinner();
-        }
-        return game.isFinished();
+        System.out.println(
+                "Player " + newScore.lastScored + " scores Score [" + newScore.playerAPoints + "-" + newScore.playerBPoints + "]");
     }
 
     private void printWinner() {
