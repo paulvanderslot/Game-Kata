@@ -1,1 +1,1 @@
-Game that grows wuth wishes of product owner
+Game that grows with wishes of product owner
