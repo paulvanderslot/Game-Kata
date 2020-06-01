@@ -1,0 +1,17 @@
+temp
+**/.idea
+*.iml
+**/build
+**/.gradle
+target
+.settings
+.settings/
+.classpath
+.project
+.factorypath
+.idea
+.*
+bin/
+*.log
+*.out
+*.launch
