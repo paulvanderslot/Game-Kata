@@ -27,7 +27,7 @@ public class GameConsoleAdapter {
         Player player = parse(input);
         if (!player.equals(Player.NONE)) {
             game.playerScores(player);
-            printScore(game.getCurrentScore());
+            printCurrentScore();
         }
     }
 
@@ -43,35 +43,35 @@ public class GameConsoleAdapter {
         return Player.NONE;
     }
 
-    private void printScore(Score newScore) {
-        System.out.println(getScoreText(newScore));
+    private void printCurrentScore() {
+        System.out.println(getScoreText(game.getCurrentScore()));
     }
 
-    private String getScoreText(Score newScore) {
-        String scoreText = "Player " + newScore.lastScored + " scores";
+    private String getScoreText(Score score) {
+        String scoreText = "Player " + score.lastScored + " scores";
         scoreText += " Score [";
-        scoreText += getPointsForPlayer(Player.A, newScore);
+        scoreText += getPointsForPlayer(Player.A, score);
         scoreText += "-";
-        scoreText += getPointsForPlayer(Player.B, newScore);
+        scoreText += getPointsForPlayer(Player.B, score);
         scoreText += "]";
         return scoreText;
     }
 
     //TODO possible that serving right and points should be moved to Point class? -> would remove ifs (point.toString)
-    private String getPointsForPlayer(Player player, Score newScore) {
-        String points = getPointsText(player, newScore);
-        if (newScore.hasServingRight(player)) {
+    private String getPointsForPlayer(Player player, Score score) {
+        String points = getPointsText(player, score);
+        if (score.hasServingRight(player)) {
             points += "*";
         }
         return points;
     }
 
-    private String getPointsText(Player player, Score newScore) {
+    private String getPointsText(Player player, Score score) {
         if (player.equals(Player.A)) {
-            return String.valueOf(newScore.playerAPoints);
+            return String.valueOf(score.playerAPoints);
         }
         else if (player.equals(Player.B)) {
-            return String.valueOf(newScore.playerBPoints);
+            return String.valueOf(score.playerBPoints);
         }
         throw new IllegalArgumentException("Player not supported");
     }
