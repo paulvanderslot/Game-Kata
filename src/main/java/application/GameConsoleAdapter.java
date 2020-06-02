@@ -10,6 +10,7 @@ public class GameConsoleAdapter {
 
     private GameService gameService = new GameService(new InMemoryGameRepository());
     private ConsoleInputTranslater consoleInputTranslater = new ConsoleInputTranslater();
+    private GameFeedbackPrinter printer = new GameFeedbackPrinter();
 
     public void startConsoleGame() {
         startGame();
@@ -26,45 +27,16 @@ public class GameConsoleAdapter {
 
     private void process(ConsoleInput consoleInput) {
         if (!consoleInput.player.equals(Player.NONE)) {
-            gameService.scored("",consoleInput.player);
+            gameService.scored("", consoleInput.player);
             printScore();
         }
     }
 
     private void printScore() {
-        System.out.println(getScoreText(gameService.getScore("")));
-    }
-
-    private String getScoreText(Score score) {
-        String scoreText = "Player " + score.lastScored + " scores";
-        scoreText += " Score [";
-        scoreText += getPointsForPlayer(Player.A, score);
-        scoreText += "-";
-        scoreText += getPointsForPlayer(Player.B, score);
-        scoreText += "]";
-        return scoreText;
-    }
-
-    //TODO possible that serving right and points should be moved to Point class? -> would remove ifs (point.toString)
-    private String getPointsForPlayer(Player player, Score score) {
-        String points = getPointsText(player, score);
-        if (score.hasServingRight(player)) {
-            points += "*";
-        }
-        return points;
-    }
-
-    private String getPointsText(Player player, Score score) {
-        if (player.equals(Player.A)) {
-            return String.valueOf(score.playerAPoints);
-        }
-        else if (player.equals(Player.B)) {
-            return String.valueOf(score.playerBPoints);
-        }
-        throw new IllegalArgumentException("Player not supported");
+        System.out.println(printer.print(gameService.getScore("")));
     }
 
     private void printWinner() {
-        System.out.println("Player " + gameService.getWinner("") + " wins");
+        System.out.println(printer.printWinner(gameService.getWinner("")));
     }
 }
