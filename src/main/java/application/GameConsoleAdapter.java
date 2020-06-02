@@ -9,6 +9,7 @@ import domain.Score;
 public class GameConsoleAdapter {
 
     private Game game = new Game();
+    ConsoleInputTranslater consoleInputTranslater = new ConsoleInputTranslater();
 
     public void startNewGame() {
         game = new Game();
@@ -18,29 +19,17 @@ public class GameConsoleAdapter {
     private void startGame() {
         Scanner scanner = new Scanner(System.in);
         while (!game.isFinished()) {
-            parseGameInput(scanner.nextLine());
+            ConsoleInput consoleInput = consoleInputTranslater.translate(scanner.nextLine());
+            process(consoleInput);
         }
         printWinner();
     }
 
-    public void parseGameInput(String input) {
-        Player player = parse(input);
-        if (!player.equals(Player.NONE)) {
-            game.playerScores(player);
+    private void process(ConsoleInput consoleInput) {
+        if (!consoleInput.player.equals(Player.NONE)) {
+            game.playerScores(consoleInput.player);
             printCurrentScore();
         }
-    }
-
-    // TODO move to parsing class if gets complicated
-    private Player parse(String input) {
-        if (input.equalsIgnoreCase("A")) {
-            return Player.A;
-        }
-        else if (input.equalsIgnoreCase("B")) {
-            return Player.B;
-        }
-
-        return Player.NONE;
     }
 
     private void printCurrentScore() {
