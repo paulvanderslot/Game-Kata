@@ -54,4 +54,12 @@ public class Score {
     @Override public int hashCode() {
         return Objects.hash(playerAPoints, playerBPoints, lastScored);
     }
+
+    @Override public String toString() {
+        return "Score{" +
+                "playerAPoints=" + playerAPoints +
+                ", playerBPoints=" + playerBPoints +
+                ", lastScored=" + lastScored +
+                '}';
+    }
 }

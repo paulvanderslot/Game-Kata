@@ -2,23 +2,22 @@ package application;
 
 import java.util.Scanner;
 
-import domain.Game;
+import domain.GameService;
 import domain.Player;
 import domain.Score;
 
 public class GameConsoleAdapter {
 
-    private Game game = new Game();
-    ConsoleInputTranslater consoleInputTranslater = new ConsoleInputTranslater();
+    private GameService gameService = new GameService(new InMemoryGameRepository());
+    private ConsoleInputTranslater consoleInputTranslater = new ConsoleInputTranslater();
 
-    public void startNewGame() {
-        game = new Game();
+    public void startConsoleGame() {
         startGame();
     }
 
     private void startGame() {
         Scanner scanner = new Scanner(System.in);
-        while (!game.isFinished()) {
+        while (!gameService.isFinished("")) {
             ConsoleInput consoleInput = consoleInputTranslater.translate(scanner.nextLine());
             process(consoleInput);
         }
@@ -27,13 +26,13 @@ public class GameConsoleAdapter {
 
     private void process(ConsoleInput consoleInput) {
         if (!consoleInput.player.equals(Player.NONE)) {
-            game.playerScores(consoleInput.player);
-            printCurrentScore();
+            gameService.scored("",consoleInput.player);
+            printScore();
         }
     }
 
-    private void printCurrentScore() {
-        System.out.println(getScoreText(game.getCurrentScore()));
+    private void printScore() {
+        System.out.println(getScoreText(gameService.getScore("")));
     }
 
     private String getScoreText(Score score) {
@@ -66,6 +65,6 @@ public class GameConsoleAdapter {
     }
 
     private void printWinner() {
-        System.out.println("Player " + game.getWinner() + " wins");
+        System.out.println("Player " + gameService.getWinner("") + " wins");
     }
 }

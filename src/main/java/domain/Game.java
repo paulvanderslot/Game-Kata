@@ -8,7 +8,7 @@ public class Game {
     }
 
     public void playerScores(Player player) {
-              currentScore = currentScore.scores(player);
+        currentScore = currentScore.scores(player);
     }
 
     public boolean isFinished() {
@@ -16,7 +16,10 @@ public class Game {
     }
 
     public Player getWinner() {
-        return currentScore.lastScored;
+        if (isFinished()) {
+            return currentScore.lastScored;
+        }
+        return Player.NONE;
     }
 
     public Score getCurrentScore() {
