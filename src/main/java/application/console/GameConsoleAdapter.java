@@ -42,7 +42,7 @@ public class GameConsoleAdapter {
             }
             else {
                 gameService.scored(gameId, player);
-                printFeedback(gameId);
+                printScoreFeedback(gameId);
             }
         }
     }
@@ -51,7 +51,7 @@ public class GameConsoleAdapter {
         System.out.println(printer.printGameIsFinished(gameId));
     }
 
-    private void printFeedback(GameId gameId) {
+    private void printScoreFeedback(GameId gameId) {
         printScore(gameId);
         if (gameService.isFinished(gameId)) {
             printWinner(gameId);
