@@ -2,5 +2,5 @@ package domain;
 
 public interface GameRepository {
 
-    Game findGame();
+    Game findGame(GameId gameId);
 }

@@ -7,7 +7,6 @@ import domain.Player;
 
 public class ConsoleInput {
     final GameId gameId;
-
     final Player player;
     final boolean mustQuit;
 

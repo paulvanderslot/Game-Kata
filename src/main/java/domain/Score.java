@@ -8,7 +8,7 @@ public class Score {
     public final int playerBPoints;
     public final Player lastScored;
 
-    Score(int playerAPoints, int playerBPoints, Player lastScored) {
+    public Score(int playerAPoints, int playerBPoints, Player lastScored) {
         this.playerAPoints = playerAPoints;
         this.playerBPoints = playerBPoints;
         this.lastScored = lastScored;

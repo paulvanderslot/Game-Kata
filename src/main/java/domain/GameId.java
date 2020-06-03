@@ -7,7 +7,6 @@ public class GameId {
     private String gameId;
 
     public GameId(String gameId){
-
         this.gameId = gameId;
     }
 
@@ -25,8 +24,6 @@ public class GameId {
     }
 
     @Override public String toString() {
-        return "GameId{" +
-                "gameId='" + gameId + '\'' +
-                '}';
+        return gameId;
     }
 }

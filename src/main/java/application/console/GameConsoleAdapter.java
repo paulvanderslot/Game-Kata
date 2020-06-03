@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import application.storage.InMemoryGameRepository;
+import domain.GameId;
 import domain.GameService;
 import domain.Player;
 
@@ -19,30 +20,49 @@ public class GameConsoleAdapter {
 
     private void startGame() {
         Scanner scanner = new Scanner(System.in);
-        while (!gameService.isFinished("")) {
-            Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(scanner.nextLine());
-            if (consoleInput.isPresent()) {
-                if(consoleInput.get().mustQuit){
+        while (true) {
+            Optional<ConsoleInput> optionalInput = consoleInputTranslater.translate(scanner.nextLine());
+            if (optionalInput.isPresent()) {
+                ConsoleInput consoleInput = optionalInput.get();
+                if (consoleInput.mustQuit) {
                     return;
                 }
-                process(consoleInput.get());
+                process(consoleInput);
             }
         }
-        printWinner();
     }
 
     private void process(ConsoleInput consoleInput) {
-        if (!consoleInput.player.equals(Player.NONE)) {
-            gameService.scored("", consoleInput.player);
-            printScore();
+        Player player = consoleInput.player;
+        GameId gameId = consoleInput.gameId;
+
+        if (!player.equals(Player.NONE)) {
+            if (gameService.isFinished(gameId)) {
+                printGameIsFinished(gameId);
+            }
+            else {
+                gameService.scored(gameId, player);
+                printFeedback(gameId);
+            }
         }
     }
 
-    private void printScore() {
-        System.out.println(printer.print(gameService.getScore("")));
+    private void printGameIsFinished(GameId gameId) {
+        System.out.println(printer.printGameIsFinished(gameId));
     }
 
-    private void printWinner() {
-        System.out.println(printer.printWinner(gameService.getWinner("")));
+    private void printFeedback(GameId gameId) {
+        printScore(gameId);
+        if (gameService.isFinished(gameId)) {
+            printWinner(gameId);
+        }
+    }
+
+    private void printScore(GameId gameId) {
+        System.out.println(printer.print(gameId, gameService.getScore(gameId)));
+    }
+
+    private void printWinner(GameId gameId) {
+        System.out.println(printer.printWinner(gameId, gameService.getWinner(gameId)));
     }
 }

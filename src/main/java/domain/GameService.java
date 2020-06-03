@@ -8,23 +8,23 @@ public class GameService {
         this.repository = repository;
     }
 
-    public void scored(String gameId, Player player) {
-        Game game = repository.findGame();
+    public void scored(GameId gameId, Player player) {
+        Game game = repository.findGame(gameId);
         game.playerScores(player);
     }
 
-    public Score getScore(String gameId) {
-        Game game = repository.findGame();
+    public Score getScore(GameId gameId) {
+        Game game = repository.findGame(gameId);
         return game.getCurrentScore();
     }
 
-    public boolean isFinished(String gameId) {
-        Game game = repository.findGame();
+    public boolean isFinished(GameId gameId) {
+        Game game = repository.findGame(gameId);
         return game.isFinished();
     }
 
-    public Player getWinner(String gameId) {
-        Game game = repository.findGame();
+    public Player getWinner(GameId gameId) {
+        Game game = repository.findGame(gameId);
 
         return game.getWinner();
     }

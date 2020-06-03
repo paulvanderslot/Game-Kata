@@ -1,4 +1,4 @@
-package application;
+package application.console;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import application.console.ConsoleInput;
-import application.console.ConsoleInputTranslater;
 import domain.GameId;
 import domain.Player;
 

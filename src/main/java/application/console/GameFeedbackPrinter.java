@@ -1,13 +1,15 @@
 package application.console;
 
+import domain.GameId;
 import domain.Player;
 import domain.Score;
 
 public class GameFeedbackPrinter {
 
-    String print(Score score){
-        String scoreText = "Player " + score.lastScored + " scores";
-        scoreText += " Score [";
+    String print(GameId gameId, Score score) {
+        String scoreText = "Player " + score.lastScored + " scores ";
+        scoreText += "in game " + gameId + ". ";
+        scoreText += "Score [";
         scoreText += getPointsForPlayer(Player.A, score);
         scoreText += "-";
         scoreText += getPointsForPlayer(Player.B, score);
@@ -32,9 +34,13 @@ public class GameFeedbackPrinter {
             return String.valueOf(score.playerBPoints);
         }
         throw new IllegalArgumentException("Player not supported");
-     }
+    }
 
-    String printWinner(Player player){
-        return "Player " + player + " wins";
+    String printWinner(GameId gameId, Player player) {
+        return "Player " + player + " wins game " + gameId;
+    }
+
+    public String printGameIsFinished(GameId gameId) {
+        return "No more scoring possible for game " + gameId + ". The game is finished.";
     }
 }

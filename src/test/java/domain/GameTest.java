@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.stream.IntStream;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +9,7 @@ class GameTest {
     private Game game;
 
     @BeforeEach
-    void beforeEach(){
+    void beforeEach() {
         game = new Game();
     }
 
@@ -71,8 +69,8 @@ class GameTest {
 
     }
 
-    void scoreNTimes(int times,Game game, Player player){
-        if(!game.getCurrentScore().hasServingRight(player)){
+    void scoreNTimes(int times, Game game, Player player) {
+        if (!game.getCurrentScore().hasServingRight(player)) {
             gainServingRight(game, player);
         }
         for (int i = 0; i < times; i++) {
