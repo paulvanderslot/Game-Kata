@@ -1,4 +1,4 @@
-package application;
+package application.storage;
 
 import domain.Game;
 import domain.GameRepository;

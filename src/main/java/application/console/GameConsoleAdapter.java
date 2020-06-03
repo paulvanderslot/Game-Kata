@@ -1,10 +1,11 @@
-package application;
+package application.console;
 
+import java.util.Optional;
 import java.util.Scanner;
 
+import application.storage.InMemoryGameRepository;
 import domain.GameService;
 import domain.Player;
-import domain.Score;
 
 public class GameConsoleAdapter {
 
@@ -19,8 +20,13 @@ public class GameConsoleAdapter {
     private void startGame() {
         Scanner scanner = new Scanner(System.in);
         while (!gameService.isFinished("")) {
-            ConsoleInput consoleInput = consoleInputTranslater.translate(scanner.nextLine());
-            process(consoleInput);
+            Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(scanner.nextLine());
+            if (consoleInput.isPresent()) {
+                if(consoleInput.get().mustQuit){
+                    return;
+                }
+                process(consoleInput.get());
+            }
         }
         printWinner();
     }

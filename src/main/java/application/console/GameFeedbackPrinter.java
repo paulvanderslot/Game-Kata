@@ -1,4 +1,4 @@
-package application;
+package application.console;
 
 import domain.Player;
 import domain.Score;
