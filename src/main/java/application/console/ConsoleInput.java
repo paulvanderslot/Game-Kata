@@ -9,19 +9,25 @@ public class ConsoleInput {
     final GameId gameId;
     final Player player;
     final boolean mustQuit;
+    public boolean listGames;
 
-    private ConsoleInput(GameId gameId, Player player, boolean mustQuit) {
+    private ConsoleInput(GameId gameId, Player player, boolean mustQuit, boolean listGames) {
         this.gameId = gameId;
         this.player = player;
         this.mustQuit = mustQuit;
+        this.listGames = listGames;
     }
 
     public static ConsoleInput create(GameId gameId, Player player) {
-        return new ConsoleInput(gameId, player, false);
+        return new ConsoleInput(gameId, player, false, false);
     }
 
     public static ConsoleInput mustQuit() {
-        return new ConsoleInput(null, null, true);
+        return new ConsoleInput(null, null, true, false);
+    }
+
+    public static ConsoleInput listGames() {
+        return new ConsoleInput(null, null, false, true);
     }
 
     @Override public boolean equals(Object o) {

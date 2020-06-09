@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+
 public class GameService {
 
     private final GameRepository repository;
@@ -9,6 +11,11 @@ public class GameService {
             throw new IllegalStateException(GameRepository.class.getSimpleName() + " may not be null");
         }
         this.repository = repository;
+    }
+
+    // Not expose game to the outside?
+    public List<Game> ongoingGames() {
+        return repository.findAll();
     }
 
     public void scored(GameId gameId, Player player) {
@@ -28,7 +35,6 @@ public class GameService {
 
     public Player getWinner(GameId gameId) {
         Game game = repository.findGame(gameId);
-
         return game.getWinner();
     }
 

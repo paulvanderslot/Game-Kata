@@ -2,9 +2,15 @@ package domain;
 
 public class Game {
     private Score currentScore;
+    private GameId gameId;
 
-    public Game() {
+    public Game(GameId gameId) {
+        this.gameId = gameId;
         currentScore = new Score(0, 0, Player.NONE);
+    }
+
+    public GameId id() {
+        return gameId;
     }
 
     public void playerScores(Player player) {

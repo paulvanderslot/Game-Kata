@@ -37,7 +37,21 @@ public class GameConsoleAdapter {
         System.out.println(printer.printWelcomeMessage());
     }
 
+    //getting complicated. Maybe split up in quit/score/list etc. with necessary info.
     private void process(ConsoleInput consoleInput) {
+        if (consoleInput.listGames) {
+            listGames();
+        }
+        else {
+            score(consoleInput);
+        }
+    }
+
+    private void listGames() {
+        gameService.ongoingGames().forEach(game -> System.out.println(printer.print(game.id(), game.getCurrentScore())));
+    }
+
+    private void score(ConsoleInput consoleInput) {
         Player player = consoleInput.player;
         GameId gameId = consoleInput.gameId;
 
