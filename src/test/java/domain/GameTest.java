@@ -1,6 +1,7 @@
 package domain;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,13 +18,13 @@ class GameTest {
     void canScore() {
         scoreNTimes(1, game, Player.A);
 
-        Assertions.assertThat(game.getCurrentScore()).isEqualTo(new Score(1, 0, Player.A));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(1, 0, Player.A));
     }
 
     @Test
     void canScoreTwice() {
         scoreNTimes(2, game, Player.A);
-        Assertions.assertThat(game.getCurrentScore()).isEqualTo(new Score(2, 0, Player.A));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(2, 0, Player.A));
     }
 
     @Test
@@ -31,14 +32,14 @@ class GameTest {
         scoreNTimes(1, game, Player.A);
         scoreNTimes(1, game, Player.B);
 
-        Assertions.assertThat(game.getCurrentScore()).isEqualTo(new Score(1, 1, Player.B));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(1, 1, Player.B));
     }
 
     @Test
     void noWinnerYet() {
         scoreNTimes(3, game, Player.A);
 
-        Assertions.assertThat(game.isFinished()).isFalse();
+        assertThat(game.isFinished()).isFalse();
     }
 
     @Test
@@ -46,8 +47,8 @@ class GameTest {
         game.playerScores(Player.A);         // serving right
         scoreNTimes(4, game, Player.A);
 
-        Assertions.assertThat(game.isFinished()).isTrue();
-        Assertions.assertThat(game.getWinner()).isEqualTo(Player.A);
+        assertThat(game.isFinished()).isTrue();
+        assertThat(game.getWinner()).isEqualTo(Player.A);
     }
 
     @Test
@@ -55,8 +56,8 @@ class GameTest {
         scoreNTimes(3, game, Player.A);
         scoreNTimes(4, game, Player.B);
 
-        Assertions.assertThat(game.isFinished()).isFalse();
-        Assertions.assertThat(game.getWinner()).isEqualTo(Player.NONE);
+        assertThat(game.isFinished()).isFalse();
+        assertThat(game.getWinner()).isEqualTo(Player.NONE);
     }
 
     @Test
@@ -64,9 +65,26 @@ class GameTest {
         scoreNTimes(3, game, Player.A);
         scoreNTimes(5, game, Player.B);
 
-        Assertions.assertThat(game.isFinished()).isTrue();
-        Assertions.assertThat(game.getWinner()).isEqualTo(Player.B);
+        assertThat(game.isFinished()).isTrue();
+        assertThat(game.getWinner()).isEqualTo(Player.B);
 
+    }
+
+    @Test
+    void scoringHadNoEffectWhenAlreadyWon() {
+        game.playerScores(Player.A);         // serving right
+        scoreNTimes(4, game, Player.A);
+
+        assertThat(game.isFinished()).isTrue();
+        assertThat(game.getWinner()).isEqualTo(Player.A);
+
+        Score scoreWhenFinished = game.getCurrentScore();
+
+        game.playerScores(Player.A);
+
+        Score scoreAfterScoringAgain = game.getCurrentScore();
+
+        assertThat(scoreWhenFinished).isEqualTo(scoreAfterScoringAgain);
     }
 
     void scoreNTimes(int times, Game game, Player player) {

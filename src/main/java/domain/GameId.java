@@ -6,7 +6,10 @@ public class GameId {
 
     private String gameId;
 
-    public GameId(String gameId){
+    public GameId(String gameId) {
+        if (gameId == null || gameId.isBlank()) {
+            throw new IllegalStateException("GameId is empty or null");
+        }
         this.gameId = gameId;
     }
 

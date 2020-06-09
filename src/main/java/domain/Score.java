@@ -9,6 +9,13 @@ public class Score {
     public final Player lastScored;
 
     public Score(int playerAPoints, int playerBPoints, Player lastScored) {
+        if (playerAPoints < 0 || playerBPoints < 0) {
+            throw new IllegalArgumentException("No negative points allowed");
+        }
+        if (lastScored == null) {
+            throw new IllegalArgumentException("lastScored may not be null");
+        }
+
         this.playerAPoints = playerAPoints;
         this.playerBPoints = playerBPoints;
         this.lastScored = lastScored;

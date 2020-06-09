@@ -5,6 +5,9 @@ public class GameService {
     private final GameRepository repository;
 
     public GameService(GameRepository repository) {
+        if (repository == null) {
+            throw new IllegalStateException(GameRepository.class.getSimpleName() + " may not be null");
+        }
         this.repository = repository;
     }
 
