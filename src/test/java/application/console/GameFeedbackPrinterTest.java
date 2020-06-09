@@ -15,7 +15,7 @@ class GameFeedbackPrinterTest {
     void printScorePlayerBScores() {
         Score score = new Score(1, 2, Player.B);
 
-        String result = printer.print(new GameId("id"), score);
+        String result = printer.printScoreFeedback(new GameId("id"), score);
 
         Assertions.assertThat(result).isEqualTo("Player B scores in game id. Score [1-2*]");
     }
@@ -24,7 +24,7 @@ class GameFeedbackPrinterTest {
     void printScorePlayerAScores() {
         Score score = new Score(3, 1, Player.A);
 
-        String result = printer.print(new GameId("id"), score);
+        String result = printer.printScoreFeedback(new GameId("id"), score);
 
         Assertions.assertThat(result).isEqualTo("Player A scores in game id. Score [3*-1]");
     }
@@ -41,5 +41,23 @@ class GameFeedbackPrinterTest {
         String result = printer.printGameIsFinished(new GameId("id"));
 
         Assertions.assertThat(result).isEqualTo("No more scoring possible for game id. The game is finished.");
+    }
+
+    @Test
+    void printOngoingGameSummary() {
+        Score score = new Score(1, 2, Player.B);
+
+        String result = printer.printGameSummary(new GameId("id"), false, score);
+
+        Assertions.assertThat(result).isEqualTo("Game id : Ongoing - Score [1-2*]");
+    }
+
+    @Test
+    void printFinishedGameSummary() {
+        Score score = new Score(4, 2, Player.A);
+
+        String result = printer.printGameSummary(new GameId("id"), true, score);
+
+        Assertions.assertThat(result).isEqualTo("Game id : Finished - Score [4*-2] Player A won");
     }
 }

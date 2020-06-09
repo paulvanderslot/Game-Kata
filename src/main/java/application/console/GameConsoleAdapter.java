@@ -48,7 +48,8 @@ public class GameConsoleAdapter {
     }
 
     private void listGames() {
-        gameService.ongoingGames().forEach(game -> System.out.println(printer.print(game.id(), game.getCurrentScore())));
+        gameService.ongoingGames().forEach(
+                game -> System.out.println(printer.printGameSummary(game.id(), game.isFinished(), game.getCurrentScore())));
     }
 
     private void score(ConsoleInput consoleInput) {
@@ -78,7 +79,7 @@ public class GameConsoleAdapter {
     }
 
     private void printScore(GameId gameId) {
-        System.out.println(printer.print(gameId, gameService.getScore(gameId)));
+        System.out.println(printer.printScoreFeedback(gameId, gameService.getScore(gameId)));
     }
 
     private void printWinner(GameId gameId) {

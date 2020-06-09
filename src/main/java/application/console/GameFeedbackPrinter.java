@@ -6,15 +6,18 @@ import domain.Score;
 
 public class GameFeedbackPrinter {
 
-    String print(GameId gameId, Score score) {
-        String scoreText = "Player " + score.lastScored + " scores ";
-        scoreText += "in game " + gameId + ". ";
-        scoreText += "Score [";
-        scoreText += getPointsForPlayer(Player.A, score);
-        scoreText += "-";
-        scoreText += getPointsForPlayer(Player.B, score);
-        scoreText += "]";
-        return scoreText;
+    String printScoreFeedback(GameId gameId, Score score) {
+        String playerAndGameText = "Player " + score.lastScored + " scores in game " + gameId + ". ";
+        return playerAndGameText + getScoreInfo(score);
+    }
+
+    private String getScoreInfo(Score score) {
+        String scoreInfo = "Score [";
+        scoreInfo += getPointsForPlayer(Player.A, score);
+        scoreInfo += "-";
+        scoreInfo += getPointsForPlayer(Player.B, score);
+        scoreInfo += "]";
+        return scoreInfo;
     }
 
     //TODO possible that serving right and points should be moved to Point class? -> would remove ifs (point.toString)
@@ -49,4 +52,12 @@ public class GameFeedbackPrinter {
                 "**         ScoreKeeper         **" + System.lineSeparator() +
                 "*********************************";
     }
+
+    public String printGameSummary(GameId id, boolean finished, Score score) {
+        String gameInfo = "Game " + id;
+        String gameStateInfo = finished ? "Finished" : "Ongoing";
+        String winnerInfo = finished ? "Player " + score.lastScored + " won" : "";
+        return gameInfo + " : " + gameStateInfo + " - " + getScoreInfo(score) + " " + winnerInfo;
+    }
+
 }
