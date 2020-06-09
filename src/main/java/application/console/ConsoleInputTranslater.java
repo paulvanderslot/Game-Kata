@@ -12,7 +12,7 @@ public class ConsoleInputTranslater {
 
     private static final int GAME_GROUP = 1;
     private static final int PLAYER_GROUP = 2;
-    private static final Pattern REGEX = Pattern.compile("^G([A-Za-z0-9]+) ([A-Za-z0-9]+)");
+    private static final Pattern REGEX = Pattern.compile("^G([A-Za-z0-9]+) +([A-Za-z0-9]+)");
 
     public Optional<ConsoleInput> translate(String inputString) {
         if (inputString.equals(QUIT_COMMAND)) {

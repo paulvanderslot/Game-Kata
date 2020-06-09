@@ -43,4 +43,10 @@ public class GameFeedbackPrinter {
     public String printGameIsFinished(GameId gameId) {
         return "No more scoring possible for game " + gameId + ". The game is finished.";
     }
+
+    public String printWelcomeMessage() {
+        return "*********************************" + System.lineSeparator() +
+                "**         ScoreKeeper         **" + System.lineSeparator() +
+                "*********************************";
+    }
 }

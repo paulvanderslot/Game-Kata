@@ -80,6 +80,16 @@ class ConsoleInputTranslaterTest {
     }
 
     @Test
+    void acceptsExtraSpace() {
+        String inputStringWithExtraSpace = createInputString("other ", " a");
+
+        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputStringWithExtraSpace);
+
+        assertThat(consoleInput).isPresent();
+        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
+    }
+
+    @Test
     void mustQuit() {
         String inputString = "quit";
 

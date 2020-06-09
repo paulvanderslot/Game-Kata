@@ -19,6 +19,7 @@ public class GameConsoleAdapter {
     }
 
     private void startGame() {
+        printWelcomeMessage();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             Optional<ConsoleInput> optionalInput = consoleInputTranslater.translate(scanner.nextLine());
@@ -30,6 +31,10 @@ public class GameConsoleAdapter {
                 process(consoleInput);
             }
         }
+    }
+
+    private void printWelcomeMessage() {
+        System.out.println(printer.printWelcomeMessage());
     }
 
     private void process(ConsoleInput consoleInput) {
