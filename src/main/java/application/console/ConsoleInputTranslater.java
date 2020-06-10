@@ -9,15 +9,23 @@ import domain.Player;
 
 public class ConsoleInputTranslater {
     private static final String QUIT_COMMAND = "quit";
+    private static final String LIST_GAMES_COMMAND = "ls";
 
     private static final int GAME_GROUP = 1;
     private static final int PLAYER_GROUP = 2;
-    private static final Pattern REGEX = Pattern.compile("^G([A-Za-z0-9]+) +([A-Za-z0-9]+)");
+    private static final Pattern REGEX = Pattern.compile("^[Gg]([A-Za-z0-9]+) +([A-Za-z0-9]+)");
 
     public Optional<ConsoleInput> translate(String inputString) {
-        if (inputString.equals(QUIT_COMMAND)) {
+        if (inputString.equalsIgnoreCase(QUIT_COMMAND)) {
             return Optional.of(ConsoleInput.mustQuit());
         }
+        else if (inputString.equalsIgnoreCase(LIST_GAMES_COMMAND)) {
+            return Optional.of(ConsoleInput.listGames());
+        }
+        return scoreCommand(inputString);
+    }
+
+    private Optional<ConsoleInput> scoreCommand(String inputString) {
         String gamepart = extractGamePart(inputString);
         String playerpart = extractPlayerPart(inputString);
 

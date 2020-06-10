@@ -56,8 +56,8 @@ public class GameFeedbackPrinter {
     public String printGameSummary(GameId id, boolean finished, Score score) {
         String gameInfo = "Game " + id;
         String gameStateInfo = finished ? "Finished" : "Ongoing";
-        String winnerInfo = finished ? "Player " + score.lastScored + " won" : "";
-        return gameInfo + " : " + gameStateInfo + " - " + getScoreInfo(score) + " " + winnerInfo;
+        String winnerInfo = finished ? " Player " + score.lastScored + " won" : "";
+        return gameInfo + " : " + gameStateInfo + " - " + getScoreInfo(score) + winnerInfo;
     }
 
 }

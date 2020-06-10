@@ -13,7 +13,7 @@ public class GameService {
         this.repository = repository;
     }
 
-    // Not expose game to the outside?
+    // Not expose game to the outside? maybe GameSummary?
     public List<Game> ongoingGames() {
         return repository.findAll();
     }

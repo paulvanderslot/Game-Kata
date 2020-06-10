@@ -43,6 +43,16 @@ class ConsoleInputTranslaterTest {
     }
 
     @Test
+    void translateGameLowercase() {
+        String inputString = "g1 a";
+
+        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+
+        assertThat(consoleInput).isPresent();
+        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
+    }
+
+    @Test
     void translateOtherGameIdInput() {
         String inputString = createInputString("other", "a");
 
@@ -96,6 +106,39 @@ class ConsoleInputTranslaterTest {
         Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
 
         assertThat(consoleInput).isPresent();
+        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.mustQuit());
+
+    }
+
+    @Test
+    void mustQuitIgnoreCasing() {
+        String inputString = "QUiT";
+
+        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+
+        assertThat(consoleInput).isPresent();
+        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.mustQuit());
+
+    }
+
+    @Test
+    void listAllGames() {
+        String inputString = "LS";
+
+        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+
+        assertThat(consoleInput).isPresent();
+        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.listGames());
+    }
+
+    @Test
+    void listAllGamesIgnoreCasing() {
+        String inputString = "Ls";
+
+        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+
+        assertThat(consoleInput).isPresent();
+        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.listGames());
     }
 
     private String createInputString(final String gameId, final String player) {
