@@ -8,12 +8,11 @@ import application.console.commands.ListAllGames;
 import application.console.commands.NoAction;
 import application.console.commands.PlayerScores;
 import application.console.commands.StopApplication;
-import application.storage.InMemoryGameRepository;
 import domain.GameId;
 import domain.GameService;
 import domain.Player;
 
-public class ConsoleInputTranslater {
+public class GameCommandFactory {
     private static final String QUIT_COMMAND = "quit";
     private static final String LIST_GAMES_COMMAND = "ls";
 
@@ -21,15 +20,17 @@ public class ConsoleInputTranslater {
     private static final int PLAYER_GROUP = 2;
     private static final Pattern REGEX = Pattern.compile("^[Gg]([A-Za-z0-9]+) +([A-Za-z0-9]+)");
 
-    private GameService gameService = new GameService(new InMemoryGameRepository());
-    private GameFeedbackPrinter printer = new GameFeedbackPrinter();
-    private ScoreKeeper scoreKeeper;
+    private final GameService gameService;
+    private final GameFeedbackPrinter printer;
+    private final ScoreKeeper scoreKeeper;
 
-    ConsoleInputTranslater(ScoreKeeper scoreKeeper) {
+    GameCommandFactory(ScoreKeeper scoreKeeper, GameService gameService, GameFeedbackPrinter printer) {
         this.scoreKeeper = scoreKeeper;
+        this.gameService = gameService;
+        this.printer = printer;
     }
 
-    public GameCommand translate(String inputString) {
+    public GameCommand create(String inputString) {
         if (inputString.equalsIgnoreCase(QUIT_COMMAND)) {
             return new StopApplication(scoreKeeper);
         }
@@ -40,14 +41,18 @@ public class ConsoleInputTranslater {
     }
 
     private GameCommand scoreCommand(String inputString) {
+        ConsoleInput input = translate(inputString);
+        if (input.isComplete()) {
+            return new PlayerScores(input, gameService, printer);
+        }
+        return new NoAction();
+    }
+
+    // to seperate class + tests from GameCommandFactoryTest
+    private ConsoleInput translate(String inputString) {
         String gamepart = extractGamePart(inputString);
         String playerpart = extractPlayerPart(inputString);
-
-        if (gamepart == null || playerpart == null) {
-            return new NoAction();
-        }
-
-        return new PlayerScores(ConsoleInput.create(parseGamePart(gamepart), parsePlayer(playerpart)), gameService, printer);
+        return ConsoleInput.create(parseGamePart(gamepart), parsePlayer(playerpart));
     }
 
     private String extractGamePart(String inputString) {
@@ -63,14 +68,21 @@ public class ConsoleInputTranslater {
         if (matcher.matches()) {
             return matcher.group(PLAYER_GROUP);
         }
-        return "";
+        return null;
     }
 
     private GameId parseGamePart(String gamePart) {
+        if (gamePart == null) {
+            return null;
+        }
         return new GameId(gamePart);
     }
 
     private Player parsePlayer(String playerPart) {
+        if (playerPart == null) {
+            return null;
+        }
+
         if (playerPart.equalsIgnoreCase("A")) {
             return Player.A;
         }
@@ -78,6 +90,6 @@ public class ConsoleInputTranslater {
             return Player.B;
         }
 
-        return Player.NONE;
+        return null;
     }
 }

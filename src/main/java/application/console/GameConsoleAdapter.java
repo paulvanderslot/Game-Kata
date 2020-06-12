@@ -3,11 +3,14 @@ package application.console;
 import java.util.Scanner;
 
 import application.console.commands.GameCommand;
+import application.storage.InMemoryGameRepository;
+import domain.GameService;
 
 public class GameConsoleAdapter implements ScoreKeeper {
 
-    private ConsoleInputTranslater consoleInputTranslater = new ConsoleInputTranslater(this);
+    private GameService gameService = new GameService(new InMemoryGameRepository());
     private GameFeedbackPrinter printer = new GameFeedbackPrinter();
+    private GameCommandFactory gameCommandFactory = new GameCommandFactory(this, gameService, printer);
 
     private boolean isActive = true;
 
@@ -15,7 +18,7 @@ public class GameConsoleAdapter implements ScoreKeeper {
         printWelcomeMessage();
         Scanner scanner = new Scanner(System.in);
         while (isActive) {
-            GameCommand command = consoleInputTranslater.translate(scanner.nextLine());
+            GameCommand command = gameCommandFactory.create(scanner.nextLine());
             command.execute();
         }
     }

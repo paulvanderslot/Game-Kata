@@ -9,16 +9,23 @@ import application.console.commands.ListAllGames;
 import application.console.commands.NoAction;
 import application.console.commands.PlayerScores;
 import application.console.commands.StopApplication;
+import application.storage.InMemoryGameRepository;
+import domain.GameService;
 
-class ConsoleInputTranslaterTest {
+class GameCommandFactoryTest {
+
     private final ScoreKeeper nullScoreKeeper = null;
-    private ConsoleInputTranslater consoleInputTranslater = new ConsoleInputTranslater(nullScoreKeeper);
+    private final GameService gameService = new GameService(new InMemoryGameRepository());
+    private final GameFeedbackPrinter printer = new GameFeedbackPrinter();
+    //TODO
+    private GameCommandFactory gameCommandFactory =
+            new GameCommandFactory(nullScoreKeeper, gameService, printer);
 
     @Test
     void translatePlayerALowercase() {
         String inputString = createInputString("1", "a");
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(PlayerScores.class);
         //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
@@ -28,7 +35,7 @@ class ConsoleInputTranslaterTest {
     void translatePlayerBUppercase() {
         String inputString = createInputString("1", "B");
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(PlayerScores.class);
         //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.B));
@@ -38,17 +45,16 @@ class ConsoleInputTranslaterTest {
     void translateNoncenceInput() {
         String inputString = createInputString("1", "nonsence");
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
-        assertThat(command).isOfAnyClassIn(PlayerScores.class);
-        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.NONE));
+        assertThat(command).isOfAnyClassIn(NoAction.class);
     }
 
     @Test
     void translateGameLowercase() {
         String inputString = "g1 a";
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(PlayerScores.class);
         //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
@@ -58,7 +64,7 @@ class ConsoleInputTranslaterTest {
     void translateOtherGameIdInput() {
         String inputString = createInputString("other", "a");
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(PlayerScores.class);
         //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
@@ -68,7 +74,7 @@ class ConsoleInputTranslaterTest {
     void invalidInputReturnsOptional() {
         String inputString = createInputString(" other", "a");
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(NoAction.class);
     }
@@ -77,7 +83,7 @@ class ConsoleInputTranslaterTest {
     void noGameId() {
         String inputString = createInputString("", "a");
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(NoAction.class);
     }
@@ -86,7 +92,7 @@ class ConsoleInputTranslaterTest {
     void noPlayer() {
         String inputString = createInputString("1", "");
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(NoAction.class);
     }
@@ -95,7 +101,7 @@ class ConsoleInputTranslaterTest {
     void acceptsExtraSpace() {
         String inputStringWithExtraSpace = createInputString("other ", " a");
 
-        GameCommand command = consoleInputTranslater.translate(inputStringWithExtraSpace);
+        GameCommand command = gameCommandFactory.create(inputStringWithExtraSpace);
 
         assertThat(command).isOfAnyClassIn(PlayerScores.class);
         //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
@@ -105,7 +111,7 @@ class ConsoleInputTranslaterTest {
     void mustQuit() {
         String inputString = "quit";
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(StopApplication.class);
 
@@ -115,7 +121,7 @@ class ConsoleInputTranslaterTest {
     void mustQuitIgnoreCasing() {
         String inputString = "QUiT";
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(StopApplication.class);
 
@@ -125,7 +131,7 @@ class ConsoleInputTranslaterTest {
     void listAllGames() {
         String inputString = "LS";
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(ListAllGames.class);
     }
@@ -134,7 +140,7 @@ class ConsoleInputTranslaterTest {
     void listAllGamesIgnoreCasing() {
         String inputString = "Ls";
 
-        GameCommand command = consoleInputTranslater.translate(inputString);
+        GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(ListAllGames.class);
     }

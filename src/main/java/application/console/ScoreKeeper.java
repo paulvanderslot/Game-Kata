@@ -2,7 +2,7 @@ package application.console;
 
 public interface ScoreKeeper {
 
-    public void start();
+    void start();
 
-    public void stop();
+    void stop();
 }

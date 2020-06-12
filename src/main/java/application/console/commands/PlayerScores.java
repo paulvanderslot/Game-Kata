@@ -21,15 +21,12 @@ public class PlayerScores implements GameCommand {
         Player player = consoleInput.player;
         GameId gameId = consoleInput.gameId;
 
-        if (!player.equals(Player.NONE)) {
-
-            if (gameService.isFinished(gameId)) {
-                printGameIsFinished(gameId);
-            }
-            else {
-                gameService.scored(gameId, player);
-                printScoreFeedback(gameId);
-            }
+        if (gameService.isFinished(gameId)) {
+            printGameIsFinished(gameId);
+        }
+        else {
+            gameService.scored(gameId, player);
+            printScoreFeedback(gameId);
         }
     }
 
