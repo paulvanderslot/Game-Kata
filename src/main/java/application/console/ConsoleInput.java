@@ -6,9 +6,9 @@ import domain.GameId;
 import domain.Player;
 
 public class ConsoleInput {
-    final GameId gameId;
-    final Player player;
-    final boolean mustQuit;
+    public final GameId gameId;
+    public final Player player;
+    public final boolean mustQuit;
     public boolean listGames;
 
     private ConsoleInput(GameId gameId, Player player, boolean mustQuit, boolean listGames) {

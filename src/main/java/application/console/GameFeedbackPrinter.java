@@ -6,7 +6,7 @@ import domain.Score;
 
 public class GameFeedbackPrinter {
 
-    String printScoreFeedback(GameId gameId, Score score) {
+    public String printScoreFeedback(GameId gameId, Score score) {
         String playerAndGameText = "Player " + score.lastScored + " scores in game " + gameId + ". ";
         return playerAndGameText + getScoreInfo(score);
     }
@@ -39,7 +39,7 @@ public class GameFeedbackPrinter {
         throw new IllegalArgumentException("Player not supported");
     }
 
-    String printWinner(GameId gameId, Player player) {
+    public String printWinner(GameId gameId, Player player) {
         return "Player " + player + " wins game " + gameId;
     }
 

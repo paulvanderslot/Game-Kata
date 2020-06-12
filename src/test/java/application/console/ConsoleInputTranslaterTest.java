@@ -2,111 +2,112 @@ package application.console;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 
-import domain.GameId;
-import domain.Player;
+import application.console.commands.GameCommand;
+import application.console.commands.ListAllGames;
+import application.console.commands.NoAction;
+import application.console.commands.PlayerScores;
+import application.console.commands.StopApplication;
 
 class ConsoleInputTranslaterTest {
-    private ConsoleInputTranslater consoleInputTranslater = new ConsoleInputTranslater();
+    private final ScoreKeeper nullScoreKeeper = null;
+    private ConsoleInputTranslater consoleInputTranslater = new ConsoleInputTranslater(nullScoreKeeper);
 
     @Test
     void translatePlayerALowercase() {
         String inputString = createInputString("1", "a");
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
+        assertThat(command).isOfAnyClassIn(PlayerScores.class);
+        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
     }
 
     @Test
     void translatePlayerBUppercase() {
         String inputString = createInputString("1", "B");
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.B));
+        assertThat(command).isOfAnyClassIn(PlayerScores.class);
+        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.B));
     }
 
     @Test
     void translateNoncenceInput() {
         String inputString = createInputString("1", "nonsence");
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.NONE));
+        assertThat(command).isOfAnyClassIn(PlayerScores.class);
+        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.NONE));
     }
 
     @Test
     void translateGameLowercase() {
         String inputString = "g1 a";
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
+        assertThat(command).isOfAnyClassIn(PlayerScores.class);
+        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
     }
 
     @Test
     void translateOtherGameIdInput() {
         String inputString = createInputString("other", "a");
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
+        assertThat(command).isOfAnyClassIn(PlayerScores.class);
+        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
     }
 
     @Test
     void invalidInputReturnsOptional() {
         String inputString = createInputString(" other", "a");
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isEmpty();
+        assertThat(command).isOfAnyClassIn(NoAction.class);
     }
 
     @Test
     void noGameId() {
         String inputString = createInputString("", "a");
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isEmpty();
+        assertThat(command).isOfAnyClassIn(NoAction.class);
     }
 
     @Test
     void noPlayer() {
         String inputString = createInputString("1", "");
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isEmpty();
+        assertThat(command).isOfAnyClassIn(NoAction.class);
     }
 
     @Test
     void acceptsExtraSpace() {
         String inputStringWithExtraSpace = createInputString("other ", " a");
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputStringWithExtraSpace);
+        GameCommand command = consoleInputTranslater.translate(inputStringWithExtraSpace);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
+        assertThat(command).isOfAnyClassIn(PlayerScores.class);
+        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
     }
 
     @Test
     void mustQuit() {
         String inputString = "quit";
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.mustQuit());
+        assertThat(command).isOfAnyClassIn(StopApplication.class);
 
     }
 
@@ -114,10 +115,9 @@ class ConsoleInputTranslaterTest {
     void mustQuitIgnoreCasing() {
         String inputString = "QUiT";
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.mustQuit());
+        assertThat(command).isOfAnyClassIn(StopApplication.class);
 
     }
 
@@ -125,20 +125,18 @@ class ConsoleInputTranslaterTest {
     void listAllGames() {
         String inputString = "LS";
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.listGames());
+        assertThat(command).isOfAnyClassIn(ListAllGames.class);
     }
 
     @Test
     void listAllGamesIgnoreCasing() {
         String inputString = "Ls";
 
-        Optional<ConsoleInput> consoleInput = consoleInputTranslater.translate(inputString);
+        GameCommand command = consoleInputTranslater.translate(inputString);
 
-        assertThat(consoleInput).isPresent();
-        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.listGames());
+        assertThat(command).isOfAnyClassIn(ListAllGames.class);
     }
 
     private String createInputString(final String gameId, final String player) {

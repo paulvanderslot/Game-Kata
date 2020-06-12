@@ -1,10 +1,16 @@
 package application.console;
 
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import application.console.commands.GameCommand;
+import application.console.commands.ListAllGames;
+import application.console.commands.NoAction;
+import application.console.commands.PlayerScores;
+import application.console.commands.StopApplication;
+import application.storage.InMemoryGameRepository;
 import domain.GameId;
+import domain.GameService;
 import domain.Player;
 
 public class ConsoleInputTranslater {
@@ -15,25 +21,33 @@ public class ConsoleInputTranslater {
     private static final int PLAYER_GROUP = 2;
     private static final Pattern REGEX = Pattern.compile("^[Gg]([A-Za-z0-9]+) +([A-Za-z0-9]+)");
 
-    public Optional<ConsoleInput> translate(String inputString) {
+    private GameService gameService = new GameService(new InMemoryGameRepository());
+    private GameFeedbackPrinter printer = new GameFeedbackPrinter();
+    private ScoreKeeper scoreKeeper;
+
+    ConsoleInputTranslater(ScoreKeeper scoreKeeper) {
+        this.scoreKeeper = scoreKeeper;
+    }
+
+    public GameCommand translate(String inputString) {
         if (inputString.equalsIgnoreCase(QUIT_COMMAND)) {
-            return Optional.of(ConsoleInput.mustQuit());
+            return new StopApplication(scoreKeeper);
         }
         else if (inputString.equalsIgnoreCase(LIST_GAMES_COMMAND)) {
-            return Optional.of(ConsoleInput.listGames());
+            return new ListAllGames(gameService, printer);
         }
         return scoreCommand(inputString);
     }
 
-    private Optional<ConsoleInput> scoreCommand(String inputString) {
+    private GameCommand scoreCommand(String inputString) {
         String gamepart = extractGamePart(inputString);
         String playerpart = extractPlayerPart(inputString);
 
         if (gamepart == null || playerpart == null) {
-            return Optional.empty();
+            return new NoAction();
         }
 
-        return Optional.of(ConsoleInput.create(parseGamePart(gamepart), parsePlayer(playerpart)));
+        return new PlayerScores(ConsoleInput.create(parseGamePart(gamepart), parsePlayer(playerpart)), gameService, printer);
     }
 
     private String extractGamePart(String inputString) {
