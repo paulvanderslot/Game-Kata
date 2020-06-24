@@ -22,15 +22,21 @@ public class PlayerScores implements GameCommand {
         GameId gameId = scoreConsoleInput.gameId;
 
         if (gameService.gameExists(gameId)) {
-            if (gameService.isFinished(gameId)) {
+            if (!gameService.playerIsPlaying(gameId, player)) {
+                printPlayerIsNotPlayingThisGame(gameId, player);
+            }
+            else if (gameService.isFinished(gameId)) {
                 printGameIsFinished(gameId);
             }
             else {
-                //TODO check if player plays in game. otherwise print message
                 gameService.scored(gameId, player);
                 printScoreFeedback(gameId);
             }
         }
+    }
+
+    private void printPlayerIsNotPlayingThisGame(GameId gameId, Player player) {
+        System.out.println(printer.printNotPlaying(gameId, player));
     }
 
     private void printGameIsFinished(GameId gameId) {

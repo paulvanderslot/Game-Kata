@@ -76,4 +76,11 @@ class GameFeedbackPrinterTest {
 
         Assertions.assertThat(result).isEqualTo("Game 1 created with player B and A");
     }
+
+    @Test
+    void printNotPlaying() {
+        String result = printer.printNotPlaying(new GameId("1"), new Player("henk"));
+
+        Assertions.assertThat(result).isEqualTo("Player henk does not participate in game 1");
+    }
 }

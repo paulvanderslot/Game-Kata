@@ -24,4 +24,18 @@ class ScoreTest {
         assertThat(playerBHasServingRight).isEqualTo(new Score(new Player("A"), new Player("B"), 1, 0, new Player("A")));
     }
 
+    @Test
+    void playerIsPlaying() {
+        Score score = Score.startingScore(new Player("jan"), new Player("kees"));
+
+        assertThat(score.isPlaying(new Player("Jan"))).isTrue();
+        assertThat(score.isPlaying(new Player("kees"))).isTrue();
+    }
+
+    @Test
+    void playerNotPlaying() {
+        Score score = Score.startingScore(new Player("jan"), new Player("kees"));
+        assertThat(score.isPlaying(new Player("piet"))).isFalse();
+    }
+
 }

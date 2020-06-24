@@ -45,4 +45,8 @@ public class Game {
         int diffInPoints = Math.abs(currentScore.firstPlayerPoints - currentScore.secondPlayerPoints);
         return diffInPoints >= 2;
     }
+
+    public boolean isPlaying(Player player) {
+        return currentScore.isPlaying(player);
+    }
 }

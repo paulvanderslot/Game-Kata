@@ -15,7 +15,6 @@ public class GameService {
     }
 
     public GameId startGame(Player playerOne, Player playerTwo) {
-
         GameId gameId = repository.nextId();
         repository.addGame(new Game(gameId, playerOne, playerTwo));
         return gameId;
@@ -37,27 +36,27 @@ public class GameService {
     }
 
     public Score getScore(GameId gameId) {
-        Optional<Game> game = repository.findGame(gameId);
-        if (game.isPresent()) {
-            return game.get().getCurrentScore();
-        }
-        throw new IllegalStateException("game does not exist");
+        Game game = mustFindGame(gameId);
+        return game.getCurrentScore();
     }
 
     public boolean isFinished(GameId gameId) {
-        Optional<Game> game = repository.findGame(gameId);
-        if (game.isPresent()) {
-            return game.get().isFinished();
-        }
-        throw new IllegalStateException("game does not exist");
+        Game game = mustFindGame(gameId);
+        return game.isFinished();
     }
 
     public Player getWinner(GameId gameId) {
-        Optional<Game> game = repository.findGame(gameId);
-        if (game.isPresent()) {
-            return game.get().getWinner();
-        }
-        throw new IllegalStateException("game does not exist");
+        Game game = mustFindGame(gameId);
+        return game.getWinner();
     }
 
+    private Game mustFindGame(GameId gameId) {
+        Optional<Game> game = repository.findGame(gameId);
+        return game.orElseThrow(() -> new IllegalStateException("game does not exist"));
+    }
+
+    public boolean playerIsPlaying(GameId gameId, Player player) {
+        Game game = mustFindGame(gameId);
+        return game.isPlaying(player);
+    }
 }

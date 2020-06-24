@@ -44,8 +44,12 @@ public class Score {
         return earnsServingRight(player);
     }
 
+    public boolean isPlaying(Player player) {
+        return player.equals(firstPlayer) || player.equals(secondPlayer);
+    }
+
     private void validateIsPlaying(Player player) {
-        if (!player.equals(firstPlayer) && !player.equals(secondPlayer)) {
+        if (!isPlaying(player)) {
             throw new IllegalArgumentException("Player is not playing: " + player);
         }
     }
@@ -66,7 +70,7 @@ public class Score {
         else if (secondPlayer.equals(player)) {
             return new Score(firstPlayer, secondPlayer, firstPlayerPoints, secondPlayerPoints + 1, player);
         }
-        throw new IllegalArgumentException("Player not supported");
+        throw new IllegalArgumentException("Player is not playing: " + player);
     }
 
     @Override public boolean equals(Object o) {
@@ -95,4 +99,5 @@ public class Score {
                 ", lastScored=" + lastScored +
                 '}';
     }
+
 }
