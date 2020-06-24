@@ -26,6 +26,7 @@ public class PlayerScores implements GameCommand {
                 printGameIsFinished(gameId);
             }
             else {
+                //TODO check if player plays in game. otherwise print message
                 gameService.scored(gameId, player);
                 printScoreFeedback(gameId);
             }

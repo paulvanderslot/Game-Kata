@@ -15,6 +15,7 @@ public class GameService {
     }
 
     public GameId startGame(Player playerOne, Player playerTwo) {
+
         GameId gameId = repository.nextId();
         repository.addGame(new Game(gameId, playerOne, playerTwo));
         return gameId;

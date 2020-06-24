@@ -129,17 +129,17 @@ class GameCommandFactoryTest {
     }
 
     @Test
-    void createNewGame() {
+    void createNewGameWithoutPlayers() {
         String inputString = "CG";
 
         GameCommand command = gameCommandFactory.create(inputString);
 
-        assertThat(command).isOfAnyClassIn(CreateGame.class);
+        assertThat(command).isOfAnyClassIn(NoAction.class);
     }
 
     @Test
-    void createNewGameIgnoreCasing() {
-        String inputString = "cG";
+    void createNewGame() {
+        String inputString = "cG A b";
 
         GameCommand command = gameCommandFactory.create(inputString);
 

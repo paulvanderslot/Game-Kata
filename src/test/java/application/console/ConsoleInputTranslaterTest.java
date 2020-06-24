@@ -49,4 +49,25 @@ class ConsoleInputTranslaterTest {
 
         assertThat(input.isComplete()).isFalse();
     }
+
+    @Test
+    void translateCreateGameWithoutPlayers() {
+        String inputString = "CG";
+
+        CreateGameConsoleInput input = translater.translateCreateGameInput(inputString);
+
+        assertThat(input.isComplete()).isFalse();
+    }
+
+    @Test
+    void translateCreateGameWithPlayerAAndB() {
+        String inputString = "cg a b";
+
+        CreateGameConsoleInput input = translater.translateCreateGameInput(inputString);
+
+        assertThat(input.isComplete()).isTrue();
+        assertThat(input.firstPlayer).isEqualTo(Player.A);
+        assertThat(input.secondPlayer).isEqualTo(Player.B);
+    }
+
 }

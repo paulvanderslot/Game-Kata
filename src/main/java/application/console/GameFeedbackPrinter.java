@@ -13,30 +13,21 @@ public class GameFeedbackPrinter {
 
     private String getScoreInfo(Score score) {
         String scoreInfo = "Score [";
-        scoreInfo += getPointsForPlayer(Player.A, score);
+        scoreInfo += String.valueOf(score.firstPlayerPoints);
+        scoreInfo += addServingRightString(score, score.firstPlayer);
         scoreInfo += "-";
-        scoreInfo += getPointsForPlayer(Player.B, score);
+        scoreInfo += String.valueOf(score.secondPlayerPoints);
+        scoreInfo += addServingRightString(score, score.secondPlayer);
         scoreInfo += "]";
         return scoreInfo;
     }
 
     //TODO possible that serving right and points should be moved to Point class? -> would remove ifs (point.toString)
-    private String getPointsForPlayer(Player player, Score score) {
-        String points = getPointsText(player, score);
+    private String addServingRightString(Score score, Player player) {
         if (score.hasServingRight(player)) {
-            points += "*";
+            return "*";
         }
-        return points;
-    }
-
-    private String getPointsText(Player player, Score score) {
-        if (player.equals(Player.A)) {
-            return String.valueOf(score.firstPlayerPoints);
-        }
-        else if (player.equals(Player.B)) {
-            return String.valueOf(score.secondPlayerPoints);
-        }
-        throw new IllegalArgumentException("Player not supported");
+        return "";
     }
 
     public String printWinner(GameId gameId, Player player) {
@@ -54,7 +45,7 @@ public class GameFeedbackPrinter {
     }
 
     public String printGameSummary(GameId id, boolean finished, Score score) {
-        String gameInfo = "Game " + id;
+        String gameInfo = "Game " + id + ", " + score.firstPlayer + " vs " + score.secondPlayer;
         String gameStateInfo = finished ? "Finished" : "Ongoing";
         String winnerInfo = finished ? " Player " + score.lastScored + " won" : "";
         return gameInfo + " : " + gameStateInfo + " - " + getScoreInfo(score) + winnerInfo;

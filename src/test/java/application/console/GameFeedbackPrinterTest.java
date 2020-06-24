@@ -21,6 +21,15 @@ class GameFeedbackPrinterTest {
     }
 
     @Test
+    void printScorePlayerBScoresWithPlayersInDifferentOrder() {
+        Score score = new Score(Player.B, Player.A, 1, 2, Player.B);
+
+        String result = printer.printScoreFeedback(new GameId("id"), score);
+
+        Assertions.assertThat(result).isEqualTo("Player B scores in game id. Score [1*-2]");
+    }
+
+    @Test
     void printScorePlayerAScores() {
         Score score = new Score(Player.A, Player.B, 3, 1, Player.A);
 
@@ -49,7 +58,7 @@ class GameFeedbackPrinterTest {
 
         String result = printer.printGameSummary(new GameId("id"), false, score);
 
-        Assertions.assertThat(result).isEqualTo("Game id : Ongoing - Score [1-2*]");
+        Assertions.assertThat(result).isEqualTo("Game id, A vs B : Ongoing - Score [1-2*]");
     }
 
     @Test
@@ -58,7 +67,7 @@ class GameFeedbackPrinterTest {
 
         String result = printer.printGameSummary(new GameId("id"), true, score);
 
-        Assertions.assertThat(result).isEqualTo("Game id : Finished - Score [4*-2] Player A won");
+        Assertions.assertThat(result).isEqualTo("Game id, A vs B : Finished - Score [4*-2] Player A won");
     }
 
     @Test

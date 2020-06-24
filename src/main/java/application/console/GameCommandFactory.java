@@ -7,7 +7,6 @@ import application.console.commands.NoAction;
 import application.console.commands.PlayerScores;
 import application.console.commands.StopApplication;
 import domain.GameService;
-import domain.Player;
 
 public class GameCommandFactory {
     private static final String QUIT_COMMAND = "quit";
@@ -42,8 +41,12 @@ public class GameCommandFactory {
         return new NoAction();
     }
 
-    private CreateGame createGameCommand(String inputString) {
-        return new CreateGame(gameService, printer, Player.A, Player.B);
+    private GameCommand createGameCommand(String inputString) {
+        CreateGameConsoleInput input = translater.translateCreateGameInput(inputString);
+        if (input.isComplete()) {
+            return new CreateGame(gameService, printer, input.firstPlayer, input.secondPlayer);
+        }
+        return new NoAction();
     }
 
     private GameCommand scoreCommand(String inputString) {

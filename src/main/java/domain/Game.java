@@ -5,6 +5,9 @@ public class Game {
     private GameId gameId;
 
     public Game(GameId gameId, Player firstPlayer, Player secondPlayer) {
+        if (firstPlayer.equals(secondPlayer)) {
+            throw new IllegalArgumentException("Player 1 and 2 are the same");
+        }
         this.gameId = gameId;
         currentScore = Score.startingScore(firstPlayer, secondPlayer);
     }

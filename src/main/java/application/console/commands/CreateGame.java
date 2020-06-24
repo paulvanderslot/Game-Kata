@@ -20,8 +20,10 @@ public class CreateGame implements GameCommand {
     }
 
     @Override public void execute() {
-        GameId gameId = gameService.startGame(firstPlayer, secondPlayer);
-        System.out.println(printer.gameCreated(gameId, firstPlayer, secondPlayer));
+        if (!firstPlayer.equals(secondPlayer)) {
+            GameId gameId = gameService.startGame(firstPlayer, secondPlayer);
+            System.out.println(printer.gameCreated(gameId, firstPlayer, secondPlayer));
+        }
     }
 
 }
