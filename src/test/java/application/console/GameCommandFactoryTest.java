@@ -4,22 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import application.console.commands.CreateGame;
 import application.console.commands.GameCommand;
 import application.console.commands.ListAllGames;
 import application.console.commands.NoAction;
 import application.console.commands.PlayerScores;
 import application.console.commands.StopApplication;
-import application.storage.InMemoryGameRepository;
-import domain.GameService;
 
 class GameCommandFactoryTest {
 
-    private final ScoreKeeper nullScoreKeeper = null;
-    private final GameService gameService = new GameService(new InMemoryGameRepository());
-    private final GameFeedbackPrinter printer = new GameFeedbackPrinter();
-    //TODO
+    //TODO commands inhoudelijk testen
     private GameCommandFactory gameCommandFactory =
-            new GameCommandFactory(nullScoreKeeper, gameService, printer);
+            new GameCommandFactory(null, null, null);
 
     @Test
     void translatePlayerALowercase() {
@@ -143,6 +139,24 @@ class GameCommandFactoryTest {
         GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(ListAllGames.class);
+    }
+
+    @Test
+    void createNewGame() {
+        String inputString = "CG";
+
+        GameCommand command = gameCommandFactory.create(inputString);
+
+        assertThat(command).isOfAnyClassIn(CreateGame.class);
+    }
+
+    @Test
+    void createNewGameIgnoreCasing() {
+        String inputString = "cG";
+
+        GameCommand command = gameCommandFactory.create(inputString);
+
+        assertThat(command).isOfAnyClassIn(CreateGame.class);
     }
 
     private String createInputString(final String gameId, final String player) {

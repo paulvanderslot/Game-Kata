@@ -60,4 +60,7 @@ public class GameFeedbackPrinter {
         return gameInfo + " : " + gameStateInfo + " - " + getScoreInfo(score) + winnerInfo;
     }
 
+    public String gameCreated(GameId gameId, Player playerOne, Player playerTwo) {
+        return "Game " + gameId + " created with player " + playerOne + " and " + playerTwo;
+    }
 }

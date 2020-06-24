@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.Game;
 import domain.GameId;
@@ -15,6 +16,12 @@ import domain.GameRepository;
 public class InMemoryGameRepository implements GameRepository {
 
     private final Map<GameId, Game> ongoingGames = new HashMap<>();
+    private static AtomicInteger idCounter = new AtomicInteger(1);
+
+    @Override
+    public GameId nextId() {
+        return new GameId("" + idCounter.getAndIncrement());
+    }
 
     @Override public void addGame(Game game) {
         ongoingGames.put(game.id(), game);

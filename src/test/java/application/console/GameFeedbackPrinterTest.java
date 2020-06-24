@@ -60,4 +60,11 @@ class GameFeedbackPrinterTest {
 
         Assertions.assertThat(result).isEqualTo("Game id : Finished - Score [4*-2] Player A won");
     }
+
+    @Test
+    void printGameCreated() {
+        String result = printer.gameCreated(new GameId("1"), Player.B, Player.A);
+
+        Assertions.assertThat(result).isEqualTo("Game 1 created with player B and A");
+    }
 }

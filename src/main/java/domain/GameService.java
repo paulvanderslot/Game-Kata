@@ -14,11 +14,10 @@ public class GameService {
         this.repository = repository;
     }
 
-    public void startGame(GameId gameId, Player playerOne, Player playerTwo) {
-        if (gameExists(gameId)) {
-            throw new IllegalStateException("game already exists");
-        }
+    public GameId startGame(Player playerOne, Player playerTwo) {
+        GameId gameId = repository.nextId();
         repository.addGame(new Game(gameId, playerOne, playerTwo));
+        return gameId;
     }
 
     // Not expose game to the outside? maybe GameSummary?

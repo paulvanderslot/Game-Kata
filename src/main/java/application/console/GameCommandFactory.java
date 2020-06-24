@@ -3,6 +3,7 @@ package application.console;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import application.console.commands.CreateGame;
 import application.console.commands.GameCommand;
 import application.console.commands.ListAllGames;
 import application.console.commands.NoAction;
@@ -15,6 +16,7 @@ import domain.Player;
 public class GameCommandFactory {
     private static final String QUIT_COMMAND = "quit";
     private static final String LIST_GAMES_COMMAND = "ls";
+    private static final String CREATE_GAME_COMMAND = "CG";
 
     private static final int GAME_GROUP = 1;
     private static final int PLAYER_GROUP = 2;
@@ -36,6 +38,9 @@ public class GameCommandFactory {
         }
         else if (inputString.equalsIgnoreCase(LIST_GAMES_COMMAND)) {
             return new ListAllGames(gameService, printer);
+        }
+        else if (inputString.equalsIgnoreCase(CREATE_GAME_COMMAND)) {
+            return new CreateGame(gameService, printer);
         }
         return scoreCommand(inputString);
     }

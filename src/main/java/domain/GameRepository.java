@@ -5,6 +5,8 @@ import java.util.Optional;
 
 public interface GameRepository {
 
+    GameId nextId();
+
     void addGame(Game game);
 
     Optional<Game> findGame(GameId gameId);
