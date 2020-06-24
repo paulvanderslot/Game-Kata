@@ -4,9 +4,9 @@ public class Game {
     private Score currentScore;
     private GameId gameId;
 
-    public Game(GameId gameId) {
+    public Game(GameId gameId, Player firstPlayer, Player secondPlayer) {
         this.gameId = gameId;
-        currentScore = Score.startingScore(Player.A, Player.B);
+        currentScore = Score.startingScore(firstPlayer, secondPlayer);
     }
 
     public GameId id() {

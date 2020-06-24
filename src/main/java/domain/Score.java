@@ -69,17 +69,21 @@ public class Score {
         Score score = (Score) o;
         return firstPlayerPoints == score.firstPlayerPoints &&
                 secondPlayerPoints == score.secondPlayerPoints &&
+                firstPlayer == score.firstPlayer &&
+                secondPlayer == score.secondPlayer &&
                 lastScored == score.lastScored;
     }
 
     @Override public int hashCode() {
-        return Objects.hash(firstPlayerPoints, secondPlayerPoints, lastScored);
+        return Objects.hash(firstPlayer, secondPlayer, firstPlayerPoints, secondPlayerPoints, lastScored);
     }
 
     @Override public String toString() {
         return "Score{" +
-                "playerAPoints=" + firstPlayerPoints +
-                ", playerBPoints=" + secondPlayerPoints +
+                "firstPlayer=" + firstPlayer +
+                ", secondPlayer=" + secondPlayer +
+                ", firstPlayerPoints=" + firstPlayerPoints +
+                ", secondPlayerPoints=" + secondPlayerPoints +
                 ", lastScored=" + lastScored +
                 '}';
     }

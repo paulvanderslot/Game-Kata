@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.List;
+import java.util.Optional;
 
 public class GameService {
 
@@ -13,29 +14,50 @@ public class GameService {
         this.repository = repository;
     }
 
+    public void startGame(GameId gameId, Player playerOne, Player playerTwo) {
+        if (gameExists(gameId)) {
+            throw new IllegalStateException("game already exists");
+        }
+        repository.addGame(new Game(gameId, playerOne, playerTwo));
+    }
+
     // Not expose game to the outside? maybe GameSummary?
     public List<Game> ongoingGames() {
         return repository.findAll();
     }
 
+    public boolean gameExists(GameId gameId) {
+        Optional<Game> game = repository.findGame(gameId);
+        return game.isPresent();
+    }
+
     public void scored(GameId gameId, Player player) {
-        Game game = repository.findGame(gameId);
-        game.playerScores(player);
+        Optional<Game> game = repository.findGame(gameId);
+        game.ifPresent(g -> g.playerScores(player));
     }
 
     public Score getScore(GameId gameId) {
-        Game game = repository.findGame(gameId);
-        return game.getCurrentScore();
+        Optional<Game> game = repository.findGame(gameId);
+        if (game.isPresent()) {
+            return game.get().getCurrentScore();
+        }
+        throw new IllegalStateException("game does not exist");
     }
 
     public boolean isFinished(GameId gameId) {
-        Game game = repository.findGame(gameId);
-        return game.isFinished();
+        Optional<Game> game = repository.findGame(gameId);
+        if (game.isPresent()) {
+            return game.get().isFinished();
+        }
+        throw new IllegalStateException("game does not exist");
     }
 
     public Player getWinner(GameId gameId) {
-        Game game = repository.findGame(gameId);
-        return game.getWinner();
+        Optional<Game> game = repository.findGame(gameId);
+        if (game.isPresent()) {
+            return game.get().getWinner();
+        }
+        throw new IllegalStateException("game does not exist");
     }
 
 }

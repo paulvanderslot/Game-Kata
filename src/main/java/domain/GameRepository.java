@@ -1,10 +1,13 @@
 package domain;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GameRepository {
 
-    Game findGame(GameId gameId);
+    void addGame(Game game);
+
+    Optional<Game> findGame(GameId gameId);
 
     List<Game> findAll();
 }

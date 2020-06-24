@@ -11,7 +11,7 @@ class GameTest {
 
     @BeforeEach
     void beforeEach() {
-        game = new Game(new GameId("1"));
+        game = new Game(new GameId("1"), Player.A, Player.B);
     }
 
     @Test
