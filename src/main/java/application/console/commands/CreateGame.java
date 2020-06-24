@@ -9,17 +9,19 @@ public class CreateGame implements GameCommand {
 
     private GameService gameService;
     private GameFeedbackPrinter printer;
+    private Player firstPlayer;
+    private Player secondPlayer;
 
-    public CreateGame(GameService gameService, GameFeedbackPrinter printer) {
+    public CreateGame(GameService gameService, GameFeedbackPrinter printer, Player firstPlayer, Player secondPlayer) {
         this.gameService = gameService;
         this.printer = printer;
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
     }
 
     @Override public void execute() {
-        Player playerOne = Player.A;
-        Player playerTwo = Player.B;
-        GameId gameId = gameService.startGame(playerOne, playerTwo);
-        System.out.println(printer.gameCreated(gameId, playerOne, playerTwo));
+        GameId gameId = gameService.startGame(firstPlayer, secondPlayer);
+        System.out.println(printer.gameCreated(gameId, firstPlayer, secondPlayer));
     }
 
 }

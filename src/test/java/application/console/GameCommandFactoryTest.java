@@ -18,24 +18,23 @@ class GameCommandFactoryTest {
             new GameCommandFactory(null, null, null);
 
     @Test
-    void translatePlayerALowercase() {
-        String inputString = createInputString("1", "a");
+    void translatePlayerCommand() {
+        String inputString = "g1 a";
 
         GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(PlayerScores.class);
-        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
     }
 
     @Test
-    void translatePlayerBUppercase() {
-        String inputString = createInputString("1", "B");
+    void translatePlayerCommandIppercase() {
+        String inputString = "G1 A";
 
         GameCommand command = gameCommandFactory.create(inputString);
 
         assertThat(command).isOfAnyClassIn(PlayerScores.class);
-        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.B));
     }
+
 
     @Test
     void translateNoncenceInput() {
@@ -47,23 +46,12 @@ class GameCommandFactoryTest {
     }
 
     @Test
-    void translateGameLowercase() {
-        String inputString = "g1 a";
-
-        GameCommand command = gameCommandFactory.create(inputString);
-
-        assertThat(command).isOfAnyClassIn(PlayerScores.class);
-        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("1"), Player.A));
-    }
-
-    @Test
-    void translateOtherGameIdInput() {
+    void translateNonNumberGameIdInput() {
         String inputString = createInputString("other", "a");
 
         GameCommand command = gameCommandFactory.create(inputString);
 
-        assertThat(command).isOfAnyClassIn(PlayerScores.class);
-        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
+        assertThat(command).isOfAnyClassIn(NoAction.class);
     }
 
     @Test
@@ -95,12 +83,11 @@ class GameCommandFactoryTest {
 
     @Test
     void acceptsExtraSpace() {
-        String inputStringWithExtraSpace = createInputString("other ", " a");
+        String inputStringWithExtraSpace = "G1  a";
 
         GameCommand command = gameCommandFactory.create(inputStringWithExtraSpace);
 
         assertThat(command).isOfAnyClassIn(PlayerScores.class);
-        //        assertThat(consoleInput.get()).isEqualTo(ConsoleInput.create(new GameId("other"), Player.A));
     }
 
     @Test

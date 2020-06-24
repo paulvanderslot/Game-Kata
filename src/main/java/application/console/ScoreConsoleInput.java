@@ -5,17 +5,17 @@ import java.util.Objects;
 import domain.GameId;
 import domain.Player;
 
-public class ConsoleInput {
+public class ScoreConsoleInput {
     public final GameId gameId;
     public final Player player;
 
-    private ConsoleInput(GameId gameId, Player player) {
+    private ScoreConsoleInput(GameId gameId, Player player) {
         this.gameId = gameId;
         this.player = player;
     }
 
-    public static ConsoleInput create(GameId gameId, Player player) {
-        return new ConsoleInput(gameId, player);
+    public static ScoreConsoleInput create(GameId gameId, Player player) {
+        return new ScoreConsoleInput(gameId, player);
     }
 
     public boolean isComplete() {
@@ -27,7 +27,7 @@ public class ConsoleInput {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        ConsoleInput that = (ConsoleInput) o;
+        ScoreConsoleInput that = (ScoreConsoleInput) o;
         return
                 Objects.equals(gameId, that.gameId) &&
                         player == that.player;

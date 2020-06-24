@@ -1,25 +1,25 @@
 package application.console.commands;
 
-import application.console.ConsoleInput;
 import application.console.GameFeedbackPrinter;
+import application.console.ScoreConsoleInput;
 import domain.GameId;
 import domain.GameService;
 import domain.Player;
 
 public class PlayerScores implements GameCommand {
-    private ConsoleInput consoleInput;
+    private ScoreConsoleInput scoreConsoleInput;
     private GameService gameService;
     private GameFeedbackPrinter printer;
 
-    public PlayerScores(ConsoleInput consoleInput, GameService gameService, GameFeedbackPrinter printer) {
-        this.consoleInput = consoleInput;
+    public PlayerScores(ScoreConsoleInput scoreConsoleInput, GameService gameService, GameFeedbackPrinter printer) {
+        this.scoreConsoleInput = scoreConsoleInput;
         this.gameService = gameService;
         this.printer = printer;
     }
 
     @Override public void execute() {
-        Player player = consoleInput.player;
-        GameId gameId = consoleInput.gameId;
+        Player player = scoreConsoleInput.player;
+        GameId gameId = scoreConsoleInput.gameId;
 
         if (gameService.gameExists(gameId)) {
             if (gameService.isFinished(gameId)) {
