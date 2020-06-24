@@ -37,17 +37,17 @@ class GameCommandFactoryTest {
 
 
     @Test
-    void translateNoncenceInput() {
-        String inputString = createInputString("1", "nonsence");
+    void translateNoncenceScoredInput() {
+        String inputString = "G1 Noncence";
 
         GameCommand command = gameCommandFactory.create(inputString);
 
-        assertThat(command).isOfAnyClassIn(NoAction.class);
+        assertThat(command).isOfAnyClassIn(PlayerScores.class);
     }
 
     @Test
     void translateNonNumberGameIdInput() {
-        String inputString = createInputString("other", "a");
+        String inputString = "Gother a";
 
         GameCommand command = gameCommandFactory.create(inputString);
 
@@ -56,7 +56,7 @@ class GameCommandFactoryTest {
 
     @Test
     void invalidInputReturnsOptional() {
-        String inputString = createInputString(" other", "a");
+        String inputString = "G other a";
 
         GameCommand command = gameCommandFactory.create(inputString);
 
@@ -65,7 +65,7 @@ class GameCommandFactoryTest {
 
     @Test
     void noGameId() {
-        String inputString = createInputString("", "a");
+        String inputString = "G a";
 
         GameCommand command = gameCommandFactory.create(inputString);
 
@@ -74,7 +74,7 @@ class GameCommandFactoryTest {
 
     @Test
     void noPlayer() {
-        String inputString = createInputString("1", "");
+        String inputString = "G1 ";
 
         GameCommand command = gameCommandFactory.create(inputString);
 
@@ -146,7 +146,4 @@ class GameCommandFactoryTest {
         assertThat(command).isOfAnyClassIn(CreateGame.class);
     }
 
-    private String createInputString(final String gameId, final String player) {
-        return "G" + gameId + " " + player;
-    }
 }

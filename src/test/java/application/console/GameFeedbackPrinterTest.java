@@ -13,7 +13,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printScorePlayerBScores() {
-        Score score = new Score(Player.A, Player.B, 1, 2, Player.B);
+        Score score = new Score(new Player("A"), new Player("B"), 1, 2, new Player("B"));
 
         String result = printer.printScoreFeedback(new GameId("id"), score);
 
@@ -22,7 +22,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printScorePlayerBScoresWithPlayersInDifferentOrder() {
-        Score score = new Score(Player.B, Player.A, 1, 2, Player.B);
+        Score score = new Score(new Player("B"), new Player("A"), 1, 2, new Player("B"));
 
         String result = printer.printScoreFeedback(new GameId("id"), score);
 
@@ -31,7 +31,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printScorePlayerAScores() {
-        Score score = new Score(Player.A, Player.B, 3, 1, Player.A);
+        Score score = new Score(new Player("A"), new Player("B"), 3, 1, new Player("A"));
 
         String result = printer.printScoreFeedback(new GameId("id"), score);
 
@@ -40,7 +40,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printWinner() {
-        String result = printer.printWinner(new GameId("id"), Player.A);
+        String result = printer.printWinner(new GameId("id"), new Player("A"));
 
         Assertions.assertThat(result).isEqualTo("Player A wins game id");
     }
@@ -54,7 +54,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printOngoingGameSummary() {
-        Score score = new Score(Player.A, Player.B, 1, 2, Player.B);
+        Score score = new Score(new Player("A"), new Player("B"), 1, 2, new Player("B"));
 
         String result = printer.printGameSummary(new GameId("id"), false, score);
 
@@ -63,7 +63,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printFinishedGameSummary() {
-        Score score = new Score(Player.A, Player.B, 4, 2, Player.A);
+        Score score = new Score(new Player("A"), new Player("B"), 4, 2, new Player("A"));
 
         String result = printer.printGameSummary(new GameId("id"), true, score);
 
@@ -72,7 +72,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printGameCreated() {
-        String result = printer.gameCreated(new GameId("1"), Player.B, Player.A);
+        String result = printer.gameCreated(new GameId("1"), new Player("B"), new Player("A"));
 
         Assertions.assertThat(result).isEqualTo("Game 1 created with player B and A");
     }

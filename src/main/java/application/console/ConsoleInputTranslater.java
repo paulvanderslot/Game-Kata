@@ -36,14 +36,7 @@ public class ConsoleInputTranslater {
             return null;
         }
 
-        if (playerPart.equalsIgnoreCase("A")) {
-            return Player.A;
-        }
-        else if (playerPart.equalsIgnoreCase("B")) {
-            return Player.B;
-        }
-
-        return null;
+        return new Player(playerPart);
     }
 
     private String extractPart(Pattern regexToUse, int groupNr, String inputString) {

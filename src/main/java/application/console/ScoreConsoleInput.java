@@ -30,7 +30,7 @@ public class ScoreConsoleInput {
         ScoreConsoleInput that = (ScoreConsoleInput) o;
         return
                 Objects.equals(gameId, that.gameId) &&
-                        player == that.player;
+                        Objects.equals(player, that.player);
     }
 
     @Override public int hashCode() {

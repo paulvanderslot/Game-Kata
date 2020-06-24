@@ -11,76 +11,75 @@ class GameTest {
 
     @BeforeEach
     void beforeEach() {
-        game = new Game(new GameId("1"), Player.A, Player.B);
+        game = new Game(new GameId("1"), new Player("A"), new Player("B"));
     }
 
     @Test
     void canScore() {
-        scoreNTimes(1, game, Player.A);
+        scoreNTimes(1, game, new Player("A"));
 
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(Player.A, Player.B, 1, 0, Player.A));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(new Player("A"), new Player("B"), 1, 0, new Player("A")));
     }
 
     @Test
     void canScoreTwice() {
-        scoreNTimes(2, game, Player.A);
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(Player.A, Player.B, 2, 0, Player.A));
+        scoreNTimes(2, game, new Player("A"));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(new Player("A"), new Player("B"), 2, 0, new Player("A")));
     }
 
     @Test
     void canScoreBoth() {
-        scoreNTimes(1, game, Player.A);
-        scoreNTimes(1, game, Player.B);
+        scoreNTimes(1, game, new Player("A"));
+        scoreNTimes(1, game, new Player("B"));
 
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(Player.A, Player.B, 1, 1, Player.B));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(new Player("A"), new Player("B"), 1, 1, new Player("B")));
     }
 
     @Test
     void noWinnerYet() {
-        scoreNTimes(3, game, Player.A);
+        scoreNTimes(3, game, new Player("A"));
 
         assertThat(game.isFinished()).isFalse();
     }
 
     @Test
     void playerWon() {
-        game.playerScores(Player.A);         // serving right
-        scoreNTimes(4, game, Player.A);
+        game.playerScores(new Player("A"));         // serving right
+        scoreNTimes(4, game, new Player("A"));
 
         assertThat(game.isFinished()).isTrue();
-        assertThat(game.getWinner()).isEqualTo(Player.A);
+        assertThat(game.getWinner()).isEqualTo(new Player("A"));
     }
 
     @Test
     void noWinnerWithOnePointDifference() {
-        scoreNTimes(3, game, Player.A);
-        scoreNTimes(4, game, Player.B);
+        scoreNTimes(3, game, new Player("A"));
+        scoreNTimes(4, game, new Player("B"));
 
         assertThat(game.isFinished()).isFalse();
-        assertThat(game.getWinner()).isEqualTo(Player.NONE);
     }
 
     @Test
     void winnerWithTwoPointDifference() {
-        scoreNTimes(3, game, Player.A);
-        scoreNTimes(5, game, Player.B);
+        scoreNTimes(3, game, new Player("A"));
+        scoreNTimes(5, game, new Player("B"));
 
         assertThat(game.isFinished()).isTrue();
-        assertThat(game.getWinner()).isEqualTo(Player.B);
+        assertThat(game.getWinner()).isEqualTo(new Player("B"));
 
     }
 
     @Test
     void scoringHadNoEffectWhenAlreadyWon() {
-        game.playerScores(Player.A);         // serving right
-        scoreNTimes(4, game, Player.A);
+        game.playerScores(new Player("A"));         // serving right
+        scoreNTimes(4, game, new Player("A"));
 
         assertThat(game.isFinished()).isTrue();
-        assertThat(game.getWinner()).isEqualTo(Player.A);
+        assertThat(game.getWinner()).isEqualTo(new Player("A"));
 
         Score scoreWhenFinished = game.getCurrentScore();
 
-        game.playerScores(Player.A);
+        game.playerScores(new Player("A"));
 
         Score scoreAfterScoringAgain = game.getCurrentScore();
 

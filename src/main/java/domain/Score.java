@@ -36,10 +36,18 @@ public class Score {
     }
 
     public Score scores(Player player) {
+        validateIsPlaying(player);
+
         if (hasServingRight(player)) {
             return scoresPoint(player);
         }
         return earnsServingRight(player);
+    }
+
+    private void validateIsPlaying(Player player) {
+        if (!player.equals(firstPlayer) && !player.equals(secondPlayer)) {
+            throw new IllegalArgumentException("Player is not playing: " + player);
+        }
     }
 
     // TODO not sure if it belongs here
@@ -69,9 +77,9 @@ public class Score {
         Score score = (Score) o;
         return firstPlayerPoints == score.firstPlayerPoints &&
                 secondPlayerPoints == score.secondPlayerPoints &&
-                firstPlayer == score.firstPlayer &&
-                secondPlayer == score.secondPlayer &&
-                lastScored == score.lastScored;
+                Objects.equals(firstPlayer, score.firstPlayer) &&
+                Objects.equals(secondPlayer, score.secondPlayer) &&
+                Objects.equals(lastScored, score.lastScored);
     }
 
     @Override public int hashCode() {

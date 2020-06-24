@@ -30,7 +30,7 @@ public class Game {
         if (isFinished()) {
             return currentScore.lastScored;
         }
-        return Player.NONE;
+        throw new IllegalStateException("There is no winner yet");
     }
 
     public Score getCurrentScore() {

@@ -18,7 +18,7 @@ class ConsoleInputTranslaterTest {
         ScoreConsoleInput input = translater.translateScoreInput(inputString);
 
         assertThat(input.isComplete()).isTrue();
-        assertThat(input).isEqualTo(ScoreConsoleInput.create(new GameId("1"), Player.A));
+        assertThat(input).isEqualTo(ScoreConsoleInput.create(new GameId("1"), new Player("A")));
 
     }
 
@@ -29,7 +29,7 @@ class ConsoleInputTranslaterTest {
         ScoreConsoleInput input = translater.translateScoreInput(inputString);
 
         assertThat(input.isComplete()).isTrue();
-        assertThat(input).isEqualTo(ScoreConsoleInput.create(new GameId("2"), Player.B));
+        assertThat(input).isEqualTo(ScoreConsoleInput.create(new GameId("2"), new Player("B")));
     }
 
     @Test
@@ -42,12 +42,13 @@ class ConsoleInputTranslaterTest {
     }
 
     @Test
-    void translateScoreWithNonExistingPlayer() {
+    void translateScoreWithNamedPlayer() {
         String inputString = "G1 piet";
 
         ScoreConsoleInput input = translater.translateScoreInput(inputString);
 
-        assertThat(input.isComplete()).isFalse();
+        assertThat(input.isComplete()).isTrue();
+        assertThat(input.player).isEqualTo(new Player("Piet"));
     }
 
     @Test
@@ -66,8 +67,8 @@ class ConsoleInputTranslaterTest {
         CreateGameConsoleInput input = translater.translateCreateGameInput(inputString);
 
         assertThat(input.isComplete()).isTrue();
-        assertThat(input.firstPlayer).isEqualTo(Player.A);
-        assertThat(input.secondPlayer).isEqualTo(Player.B);
+        assertThat(input.firstPlayer).isEqualTo(new Player("A"));
+        assertThat(input.secondPlayer).isEqualTo(new Player("B"));
     }
 
 }
