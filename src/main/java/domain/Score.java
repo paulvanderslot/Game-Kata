@@ -4,20 +4,34 @@ import java.util.Objects;
 
 public class Score {
 
-    public final int playerAPoints;
-    public final int playerBPoints;
+    public final Player firstPlayer;
+    public final Player secondPlayer;
+    public final int firstPlayerPoints;
+    public final int secondPlayerPoints;
     public final Player lastScored;
 
-    public Score(int playerAPoints, int playerBPoints, Player lastScored) {
-        if (playerAPoints < 0 || playerBPoints < 0) {
+    public static Score startingScore(Player firstPlayer, Player secondPlayer) {
+        return new Score(firstPlayer, secondPlayer, 0, 0, Player.NONE);
+    }
+
+    public Score(Player firstPlayer, Player secondPlayer, int firstPlayerPoints, int secondPlayerPoints, Player lastScored) {
+        if (firstPlayerPoints < 0 || secondPlayerPoints < 0) {
             throw new IllegalArgumentException("No negative points allowed");
         }
         if (lastScored == null) {
             throw new IllegalArgumentException("lastScored may not be null");
         }
+        if (firstPlayer == null) {
+            throw new IllegalArgumentException("firstPlayer may not be null");
+        }
+        if (secondPlayer == null) {
+            throw new IllegalArgumentException("secondPlayer may not be null");
+        }
 
-        this.playerAPoints = playerAPoints;
-        this.playerBPoints = playerBPoints;
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
+        this.firstPlayerPoints = firstPlayerPoints;
+        this.secondPlayerPoints = secondPlayerPoints;
         this.lastScored = lastScored;
     }
 
@@ -34,15 +48,15 @@ public class Score {
     }
 
     private Score earnsServingRight(Player player) {
-        return new Score(playerAPoints, playerBPoints, player);
+        return new Score(firstPlayer, secondPlayer, firstPlayerPoints, secondPlayerPoints, player);
     }
 
     private Score scoresPoint(Player player) {
-        if (Player.A == player) {
-            return new Score(playerAPoints + 1, playerBPoints, player);
+        if (firstPlayer.equals(player)) {
+            return new Score(firstPlayer, secondPlayer, firstPlayerPoints + 1, secondPlayerPoints, player);
         }
-        else if (Player.B == player) {
-            return new Score(playerAPoints, playerBPoints + 1, player);
+        else if (secondPlayer.equals(player)) {
+            return new Score(firstPlayer, secondPlayer, firstPlayerPoints, secondPlayerPoints + 1, player);
         }
         throw new IllegalArgumentException("Player not supported");
     }
@@ -53,19 +67,19 @@ public class Score {
         if (o == null || getClass() != o.getClass())
             return false;
         Score score = (Score) o;
-        return playerAPoints == score.playerAPoints &&
-                playerBPoints == score.playerBPoints &&
+        return firstPlayerPoints == score.firstPlayerPoints &&
+                secondPlayerPoints == score.secondPlayerPoints &&
                 lastScored == score.lastScored;
     }
 
     @Override public int hashCode() {
-        return Objects.hash(playerAPoints, playerBPoints, lastScored);
+        return Objects.hash(firstPlayerPoints, secondPlayerPoints, lastScored);
     }
 
     @Override public String toString() {
         return "Score{" +
-                "playerAPoints=" + playerAPoints +
-                ", playerBPoints=" + playerBPoints +
+                "playerAPoints=" + firstPlayerPoints +
+                ", playerBPoints=" + secondPlayerPoints +
                 ", lastScored=" + lastScored +
                 '}';
     }

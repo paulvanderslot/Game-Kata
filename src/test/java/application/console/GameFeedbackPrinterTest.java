@@ -13,7 +13,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printScorePlayerBScores() {
-        Score score = new Score(1, 2, Player.B);
+        Score score = new Score(Player.A, Player.B, 1, 2, Player.B);
 
         String result = printer.printScoreFeedback(new GameId("id"), score);
 
@@ -22,7 +22,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printScorePlayerAScores() {
-        Score score = new Score(3, 1, Player.A);
+        Score score = new Score(Player.A, Player.B, 3, 1, Player.A);
 
         String result = printer.printScoreFeedback(new GameId("id"), score);
 
@@ -45,7 +45,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printOngoingGameSummary() {
-        Score score = new Score(1, 2, Player.B);
+        Score score = new Score(Player.A, Player.B, 1, 2, Player.B);
 
         String result = printer.printGameSummary(new GameId("id"), false, score);
 
@@ -54,7 +54,7 @@ class GameFeedbackPrinterTest {
 
     @Test
     void printFinishedGameSummary() {
-        Score score = new Score(4, 2, Player.A);
+        Score score = new Score(Player.A, Player.B, 4, 2, Player.A);
 
         String result = printer.printGameSummary(new GameId("id"), true, score);
 

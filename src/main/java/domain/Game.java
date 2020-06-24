@@ -6,7 +6,7 @@ public class Game {
 
     public Game(GameId gameId) {
         this.gameId = gameId;
-        currentScore = new Score(0, 0, Player.NONE);
+        currentScore = Score.startingScore(Player.A, Player.B);
     }
 
     public GameId id() {
@@ -35,11 +35,11 @@ public class Game {
     }
 
     private boolean isFinalPointsReached() {
-        return currentScore.playerAPoints >= 4 || currentScore.playerBPoints >= 4;
+        return currentScore.firstPlayerPoints >= 4 || currentScore.secondPlayerPoints >= 4;
     }
 
     private boolean diffOfTwoPoints() {
-        int diffInPoints = Math.abs(currentScore.playerAPoints - currentScore.playerBPoints);
+        int diffInPoints = Math.abs(currentScore.firstPlayerPoints - currentScore.secondPlayerPoints);
         return diffInPoints >= 2;
     }
 }

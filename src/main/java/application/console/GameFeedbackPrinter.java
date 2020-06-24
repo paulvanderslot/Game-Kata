@@ -31,10 +31,10 @@ public class GameFeedbackPrinter {
 
     private String getPointsText(Player player, Score score) {
         if (player.equals(Player.A)) {
-            return String.valueOf(score.playerAPoints);
+            return String.valueOf(score.firstPlayerPoints);
         }
         else if (player.equals(Player.B)) {
-            return String.valueOf(score.playerBPoints);
+            return String.valueOf(score.secondPlayerPoints);
         }
         throw new IllegalArgumentException("Player not supported");
     }

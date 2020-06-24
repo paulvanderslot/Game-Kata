@@ -18,13 +18,13 @@ class GameTest {
     void canScore() {
         scoreNTimes(1, game, Player.A);
 
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(1, 0, Player.A));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(Player.A, Player.B, 1, 0, Player.A));
     }
 
     @Test
     void canScoreTwice() {
         scoreNTimes(2, game, Player.A);
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(2, 0, Player.A));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(Player.A, Player.B, 2, 0, Player.A));
     }
 
     @Test
@@ -32,7 +32,7 @@ class GameTest {
         scoreNTimes(1, game, Player.A);
         scoreNTimes(1, game, Player.B);
 
-        assertThat(game.getCurrentScore()).isEqualTo(new Score(1, 1, Player.B));
+        assertThat(game.getCurrentScore()).isEqualTo(new Score(Player.A, Player.B, 1, 1, Player.B));
     }
 
     @Test
