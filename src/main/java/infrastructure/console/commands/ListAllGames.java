@@ -1,7 +1,7 @@
-package application.console.commands;
+package infrastructure.console.commands;
 
-import application.console.GameFeedbackPrinter;
-import domain.GameService;
+import infrastructure.console.GameFeedbackPrinter;
+import service.GameService;
 
 public class ListAllGames implements GameCommand {
     private GameService gameService;

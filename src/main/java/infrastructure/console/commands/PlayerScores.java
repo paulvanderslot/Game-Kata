@@ -1,10 +1,10 @@
-package application.console.commands;
+package infrastructure.console.commands;
 
-import application.console.GameFeedbackPrinter;
-import application.console.ScoreConsoleInput;
 import domain.GameId;
-import domain.GameService;
 import domain.Player;
+import infrastructure.console.GameFeedbackPrinter;
+import infrastructure.console.ScoreConsoleInput;
+import service.GameService;
 
 public class PlayerScores implements GameCommand {
     private ScoreConsoleInput scoreConsoleInput;

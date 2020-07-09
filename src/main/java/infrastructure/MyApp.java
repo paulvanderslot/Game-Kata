@@ -1,7 +1,7 @@
-package application;
+package infrastructure;
 
-import application.console.GameConsoleAdapter;
-import application.console.ScoreKeeper;
+import infrastructure.console.GameConsoleAdapter;
+import infrastructure.console.ScoreKeeper;
 
 public class MyApp {
 

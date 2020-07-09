@@ -1,12 +1,12 @@
-package application.console;
+package infrastructure.console;
 
-import application.console.commands.CreateGame;
-import application.console.commands.GameCommand;
-import application.console.commands.ListAllGames;
-import application.console.commands.NoAction;
-import application.console.commands.PlayerScores;
-import application.console.commands.StopApplication;
-import domain.GameService;
+import infrastructure.console.commands.CreateGame;
+import infrastructure.console.commands.GameCommand;
+import infrastructure.console.commands.ListAllGames;
+import infrastructure.console.commands.NoAction;
+import infrastructure.console.commands.PlayerScores;
+import infrastructure.console.commands.StopApplication;
+import service.GameService;
 
 public class GameCommandFactory {
     private static final String QUIT_COMMAND = "quit";

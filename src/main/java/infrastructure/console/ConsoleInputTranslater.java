@@ -1,4 +1,4 @@
-package application.console;
+package infrastructure.console;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

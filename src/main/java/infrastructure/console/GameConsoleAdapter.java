@@ -1,10 +1,10 @@
-package application.console;
+package infrastructure.console;
 
 import java.util.Scanner;
 
-import application.console.commands.GameCommand;
-import application.storage.InMemoryGameRepository;
-import domain.GameService;
+import infrastructure.console.commands.GameCommand;
+import infrastructure.storage.InMemoryGameRepository;
+import service.GameService;
 
 public class GameConsoleAdapter implements ScoreKeeper {
 

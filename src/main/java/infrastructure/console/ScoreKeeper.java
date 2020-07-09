@@ -1,4 +1,4 @@
-package application.console;
+package infrastructure.console;
 
 public interface ScoreKeeper {
 

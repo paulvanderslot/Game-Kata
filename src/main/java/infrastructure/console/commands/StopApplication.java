@@ -1,6 +1,6 @@
-package application.console.commands;
+package infrastructure.console.commands;
 
-import application.console.ScoreKeeper;
+import infrastructure.console.ScoreKeeper;
 
 public class StopApplication implements GameCommand {
 

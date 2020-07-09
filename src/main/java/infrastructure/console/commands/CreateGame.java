@@ -1,9 +1,9 @@
-package application.console.commands;
+package infrastructure.console.commands;
 
-import application.console.GameFeedbackPrinter;
 import domain.GameId;
-import domain.GameService;
 import domain.Player;
+import infrastructure.console.GameFeedbackPrinter;
+import service.GameService;
 
 public class CreateGame implements GameCommand {
 

@@ -1,4 +1,4 @@
-package application.console;
+package infrastructure.console;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

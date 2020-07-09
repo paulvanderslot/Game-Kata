@@ -1,4 +1,4 @@
-package application.storage;
+package infrastructure.storage;
 
 import static java.util.stream.Collectors.toList;
 

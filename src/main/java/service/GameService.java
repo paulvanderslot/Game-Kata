@@ -1,7 +1,13 @@
-package domain;
+package service;
 
 import java.util.List;
 import java.util.Optional;
+
+import domain.Game;
+import domain.GameId;
+import domain.GameRepository;
+import domain.Player;
+import domain.Score;
 
 public class GameService {
 

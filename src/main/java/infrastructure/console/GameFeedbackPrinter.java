@@ -1,4 +1,4 @@
-package application.console;
+package infrastructure.console;
 
 import domain.GameId;
 import domain.Player;
